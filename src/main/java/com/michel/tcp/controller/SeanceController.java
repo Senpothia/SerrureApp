@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.michel.tcp.model.Utilisateur;
+import com.michel.tcp.model.auxiliaire.FormSeance;
 import com.michel.tcp.service.user.UserConnexion;
 
 @Controller
@@ -25,8 +27,30 @@ public class SeanceController {
 
 			String token = (String) session.getAttribute("TOKEN");
 			token = "Bearer " + token;
+			model.addAttribute("formSeance", new FormSeance());
 
-			return "ok";
+			return "creer";
+
+		} else {
+
+			return "redirect:/connexion";
+		}
+
+	}
+	
+	@PostMapping("/creer")
+	public String enregistrerSceance(Model model, HttpSession session, FormSeance formSeance) {
+		
+		
+		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
+
+		if (testUser(utilisateur)) {
+
+			String token = (String) session.getAttribute("TOKEN");
+			token = "Bearer " + token;
+			model.addAttribute("formSeance", new FormSeance());
+
+			return "board";
 
 		} else {
 

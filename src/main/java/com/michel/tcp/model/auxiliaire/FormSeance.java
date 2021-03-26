@@ -1,6 +1,6 @@
 package com.michel.tcp.model.auxiliaire;
 
-public class formSeance {
+public class FormSeance {
 	
 	private Integer id;
 	private String Description;
@@ -15,12 +15,12 @@ public class formSeance {
 	private Long compteur2;
 	private Long compteur3;
 	
-	public formSeance() {
+	public FormSeance() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public formSeance(Integer id, String description, String date, String type1, String type2, String type3,
+	public FormSeance(Integer id, String description, String date, String type1, String type2, String type3,
 			Boolean actif1, Boolean actif2, Boolean actif3, Long compteur1, Long compteur2, Long compteur3) {
 		super();
 		this.id = id;
