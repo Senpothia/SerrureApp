@@ -1,5 +1,6 @@
 package com.michel.tcp.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ public class Seance {
 	@OneToMany(mappedBy = "seance")
 	private List<Echantillon> echantillons;
 	
+	private String description;
+	private LocalDateTime date;
 	private String etat;  // marche, arret, pause
 	private Boolean actif; // en cours, terminée
 	
