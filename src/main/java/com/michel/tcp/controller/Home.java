@@ -168,7 +168,7 @@ public class Home {
 		
 	}
 	
-	@GetMapping("/logout")
+	@GetMapping("/login")
 	public String logout(HttpSession session) {
 		
 		session.invalidate();

@@ -60,11 +60,11 @@ public class JWTSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.csrf().disable().authorizeRequests().antMatchers("/lab-service/connexion/" // solution fonctionnelle 1
+		http.csrf().disable().authorizeRequests().antMatchers("/connexion/" // solution fonctionnelle 1
 
 		) // toujours autorisée
 				.permitAll().antMatchers(
-						 "/lab-service/private/**") // authentification requise
+						 "/private/**") // authentification requise
 												
 				.authenticated().and().exceptionHandling().authenticationEntryPoint(entryPoint).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
