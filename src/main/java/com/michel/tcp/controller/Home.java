@@ -2,15 +2,30 @@ package com.michel.tcp.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.michel.tcp.constants.Constants;
+import com.michel.tcp.model.Login;
+import com.michel.tcp.model.Utilisateur;
+import com.michel.tcp.model.auxiliaire.FormCompte;
+import com.michel.tcp.model.auxiliaire.UtilisateurAux;
+import com.michel.tcp.service.user.UserCompte;
+import com.michel.tcp.service.user.UserConnexion;
 
 @Controller
 public class Home {
 	
 	@Autowired
 	private UserConnexion userConnexion;
+	
+	@Autowired
+	private UserCompte userCompte;
+	
 	
 	
 	@GetMapping("/")
@@ -55,7 +70,7 @@ public class Home {
 		
 		} else {
 			
-			return "redirect:/labplan/connexion?error=true";
+			return "redirect:/connexion?error=true";
 		}
 	}
 	
@@ -71,14 +86,14 @@ public class Home {
 	@PostMapping("/compte")  // Création du compte
 	public String creationCompte(Model model, FormCompte formCompte) {
 		
-		UtilisateurAux utilisateurAux = new UtilisateurAux();
-		utilisateurAux.setPrenom(formCompte.getPrenom());
-		utilisateurAux.setNom(formCompte.getNom());
-		utilisateurAux.setToken(formCompte.getPassword());
-		utilisateurAux.setUsername(formCompte.getUsername());
-		utilisateurAux.setRole("USER");
+		Utilisateur utilisateur = new Utilisateur();
+		utilisateur.setPrenom(formCompte.getPrenom());
+		utilisateur.setNom(formCompte.getNom());
+		utilisateur.setPassword(formCompte.getPassword());
+		utilisateur.setUsername(formCompte.getUsername());
+		utilisateur.setRole("USER");
 		
-		microServiceLab.creerCompte(utilisateurAux);
+		userCompte.creerCompte(utilisateur);
 			
 		return Constants.CONNEXION;
 	}
@@ -140,7 +155,7 @@ public class Home {
 			
 			session.setAttribute("utilisateur", utilisateur);
 			
-			microServiceLab.modifierCompte(utilisateur.getId(), token, utilisateurAux);
+			userCompte.modifierCompte(utilisateur.getId(), token, utilisateurAux);
 			model.addAttribute("utilisateur", utilisateur);
 			model.addAttribute("authentification", true);
 			
