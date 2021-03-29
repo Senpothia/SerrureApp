@@ -28,13 +28,13 @@ public class SeanceController {
 
 	@Autowired
 	private UserConnexion userConnexion;
-	
+
 	@Autowired
 	private EchantillonService echantillonService;
-	
+
 	@Autowired
 	private SeanceService seanceService;
-	
+
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	@GetMapping("/creer")
@@ -56,11 +56,10 @@ public class SeanceController {
 		}
 
 	}
-	
+
 	@PostMapping("/creer")
 	public String enregistrerSceance(Model model, HttpSession session, FormSeance formSeance) {
-		
-		
+
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
 
 		if (testUser(utilisateur)) {
@@ -71,49 +70,47 @@ public class SeanceController {
 			Seance seance = new Seance();
 			seance.setActif(true);
 			seance.setEtat(Constants.ARRETE);
-			seance.setDate(LocalDateTime.parse(formSeance.getDate()+ " " + "00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+			seance.setDate(LocalDateTime.parse(formSeance.getDate() + " " + "00:00:00",
+					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 			seance.setDescription(formSeance.getDescription());
-		
+
 			seanceService.enregistrerSeance(seance);
 			Integer id = seance.getId();
 			System.out.println("Id scéance: " + id);
 			Seance s = seanceService.obtenirSeanceParId(id);
-			
+
 			System.out.println(s.toString());
-			
+
 			Echantillon echantillon1 = new Echantillon(formSeance, seance, 1);
 			Echantillon echantillon2 = new Echantillon(formSeance, seance, 2);
 			Echantillon echantillon3 = new Echantillon(formSeance, seance, 3);
-			
-			
-			
+
 			echantillon1.setSeance(s);
 			echantillon2.setSeance(s);
 			echantillon3.setSeance(s);
-			
+
 			System.out.println(echantillon1.toString());
-			
+
 			echantillonService.enregistrerEchantillon(echantillon1);
 			echantillonService.enregistrerEchantillon(echantillon2);
 			echantillonService.enregistrerEchantillon(echantillon3);
-			
-			
+
 			System.out.println(s.toString());
 			List<Echantillon> echantillons = new ArrayList<Echantillon>();
 			echantillons.add(echantillon1);
 			echantillons.add(echantillon2);
 			echantillons.add(echantillon3);
-			
+
 			s.setEchantillons(echantillons);
 			seanceService.enregistrerSeance(s);
-			
+
 			Seance s1 = seanceService.obtenirSeanceParId(id);
 			List<Echantillon> echs = s1.getEchantillons();
 			System.out.println("Taille liste echs: " + echs.size());
 			model.addAttribute("seance", s1);
 			int valeur = 0;
 			model.addAttribute("valeur", valeur);
-		
+
 			return Constants.BOARD;
 
 		} else {
@@ -125,103 +122,123 @@ public class SeanceController {
 
 	@GetMapping("/suivre")
 	public String suivre(Model model, HttpSession session) {
-		
+
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
-		
+
 		if (testUser(utilisateur)) {
-			
-			
+
 			List<Seance> seances = seanceService.obtenirSeanceActive();
 			System.out.println("id de la seance active: " + seances.get(0).getId());
-			
+
 			model.addAttribute("actif", true);
 			List<FormSeance> seancesForm = new ArrayList<FormSeance>();
-			for (Seance s: seances) {
-				
+			for (Seance s : seances) {
+
 				FormSeance fs = new FormSeance(s);
 				System.out.println("****date: " + fs.getDate());
 				seancesForm.add(fs);
 			}
+			int id = seancesForm.get(0).getId();
 			model.addAttribute("seances", seancesForm);
+			model.addAttribute("suivre", true);
+			model.addAttribute("id", id);
 			return "listeSeances";
-			
-			}else {
-				
-				return "redirect:/connexion";
-				
-			}
 
-		
+		} else {
+
+			return "redirect:/connexion";
+
+		}
+
+	}
+
+	@GetMapping("/board/{id}")
+	public String board(@PathVariable(name = "id") Integer id, Model model, HttpSession session) {
+
+		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
+
+		if (testUser(utilisateur)) {
+
+			Seance s1 = seanceService.obtenirSeanceParId(id);
+			List<Echantillon> echs = s1.getEchantillons();
+			System.out.println("Taille liste echs: " + echs.size());
+			model.addAttribute("seance", s1);
+			int valeur = 0;
+			model.addAttribute("valeur", valeur);
+
+			return Constants.BOARD;
+		} else {
+
+			return "redirect:/connexion";
+
+		}
+
 	}
 
 	@GetMapping("/voir")
 	public String voir(Model model, HttpSession session) {
-		
+
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
 
 		if (testUser(utilisateur)) {
-	
-		
-		List<Seance> seanceInactives = new ArrayList<Seance>();
-		seanceInactives = seanceService.obtenirSeancesInanctives();
-		System.out.println("Taille liste seance inactives:" + seanceInactives.size());
-		
-		model.addAttribute("actif", false);
-		model.addAttribute("seances", seanceInactives );
-		return "listeSeances";
-		}else {
-			
+
+			List<Seance> seanceInactives = new ArrayList<Seance>();
+			seanceInactives = seanceService.obtenirSeancesInanctives();
+			System.out.println("Taille liste seance inactives:" + seanceInactives.size());
+
+			model.addAttribute("actif", false);
+			model.addAttribute("seances", seanceInactives);
+			return "listeSeances";
+		} else {
+
 			return "redirect:/connexion";
-			
+
 		}
 
-		
 	}
-	
+
 	@GetMapping("/sceance/stop/{id}")
-	public String stopSeance(@PathVariable(name="id") Integer id,Model model, HttpSession session) {
-		
+	public String stopSeance(@PathVariable(name = "id") Integer id, Model model, HttpSession session) {
+
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
 
 		if (testUser(utilisateur)) {
-		Seance seance = seanceService.obtenirSeanceParId(id);
-		seance.setActif(false);
-		seance.setEtat(Constants.ARRETE);
-		seanceService.enregistrerSeance(seance);
-		
-		List<Seance> seanceInactives = new ArrayList<Seance>();
-		seanceInactives = seanceService.obtenirSeancesInanctives();
-		System.out.println("Taille liste seance inactives:" + seanceInactives.size());
-		model.addAttribute("actif", false);
-		model.addAttribute("seances", seanceInactives );
-		return "listeSeances";
-		
-		}else {
-			
+			Seance seance = seanceService.obtenirSeanceParId(id);
+			seance.setActif(false);
+			seance.setEtat(Constants.ARRETE);
+			seanceService.enregistrerSeance(seance);
+
+			List<Seance> seanceInactives = new ArrayList<Seance>();
+			seanceInactives = seanceService.obtenirSeancesInanctives();
+			System.out.println("Taille liste seance inactives:" + seanceInactives.size());
+			model.addAttribute("actif", false);
+			model.addAttribute("seances", seanceInactives);
+			return "listeSeances";
+
+		} else {
+
 			return "redirect:/connexion";
-			
+
 		}
 	}
-	
-	
+
 	@GetMapping("/seance/{id}")
-	public String voirSeance(@PathVariable(name="id") Integer id,Model model, HttpSession session) {
-		
+	public String voirSeance(@PathVariable(name = "id") Integer id, Model model, HttpSession session) {
+
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
 
 		if (testUser(utilisateur)) {
-		Seance seance = seanceService.obtenirSeanceParId(id);
-		FormSeance formSeance = new FormSeance(seance);
-		model.addAttribute("seance", seance);
-		return "seance";
-		
-		}else {
-			
+			Seance seance = seanceService.obtenirSeanceParId(id);
+			FormSeance formSeance = new FormSeance(seance);
+			model.addAttribute("seance", seance);
+			return "seance";
+
+		} else {
+
 			return "redirect:/connexion";
-			
+
 		}
 	}
-	
 
 	public boolean testUser(Utilisateur utilisateur) {
 
