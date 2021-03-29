@@ -12,67 +12,90 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
+
 <link rel="stylesheet" href="/css/styles.css">
+<link rel="shortcut icon" type="image/x-icon" href="/images/logo0.png" />
 <title>Test d'endurance</title>
- <link rel="shortcut icon" type="image/x-icon" href="/images/logo0.png" />
 </head>
 <body>
 	<div class="container">
 
 		<!-- ENTETE -->
 
-		<!-- Entete -->
-		<div th:replace="fragments/entete_init :: entete_init"></div>
+
+		<div th:replace="fragments/entete_post :: entete_post"></div>
 		<!-- ---------------- -->
 
-		<!-- ********************************************* -->
 
 		<!-- IMAGE -->
 		<div class="row">
 			<div class="col">
-				<img class="img-fluid" src="/images/bandeau0.jpg" th:src="@{/images/bandeau0.jpg}" />
+				<img class="img-fluid" src="/images/bandeau3.png" alt=""
+					th:src="@{/images/bandeau2.png}" />
 			</div>
 		</div>
+		<!-- ----------------- -->
+		<div class="row d-flex justify-content-center">
+			<span th:if=${actif}>
 
-		<div class="message row">
+				<h1>Sceance de test en cours</h1>
+			</span> <span th:unless=${actif}>
 
-			<h1>Entrez vos identifiants de connexion ou créer un compte.</h1>
-
+				<h1>Liste de toutes les scéances inactives</h1>
+			</span>
 		</div>
+
+
 		<div class="row">
 
-			<div class="col">
+			<div class="col donnees" style="margin: 5px;">
 
-				<form class="formulaire" th:action="@{/connexion}"
-					th:object="${login}" method="post">
-					<div>
-						<h3 style="color: red;" th:if="${error}">Erreur! Vérifiez vous
-							identifiants de connexion</h3>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">N°</th>
+							<th scope="col">Date</th>
+							<th scope="col">Description</th>
 
-					</div>
-					<div class="form-group">
-						<label for="email">Email</label> <input type="text"
-							class="form-control" name="user">
 
-					</div>
-					<div class="form-group">
-						<label for="password">Password</label> <input type="password"
-							class="form-control" name="password">
-					</div>
 
-					<div class="float-right">
-						<a href="compte"><button type="button" class="btn" style="background-color: #093b71; color: white;">Créer
-								un compte</button></a>
-						<button type="submit" class="btn" style="background-color: #093b71; color: white;">Connexion</button>
-					</div>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="seance, iStat: ${seances}">
+							<th scope="row"><span th:text="${iStat.count}"></span></th>
+							<td th:text="${seance.date}" />
+							<td th:text="${seance.description}" />
 
-				</form>
+							<td><a th:href="@{/seance/{id}(id=${seance.id})}"><p
+										type="text" class="btn btn-block"
+										style="background-color: #093b71; color: white">Voir</p></a>
+							<td />
+
+
+						</tr>
+
+					</tbody>
+				</table>
 
 
 			</div>
-		</div>
-		<!-- PIED DE PAGE -->
 
+
+		</div>
+
+		<div class="row mt-3">
+			<div class="col d-flex justify-content-center">
+				<div class="form-group ">
+					<a href="/labplan/espace"><p type="text" class="btn btn-block"
+							style="background-color: #093b71; color: white; width: 350px;">Retour</p></a>
+				</div>
+			</div>
+
+
+		</div>
+
+		<!-- PIED DE PAGE -->
 
 		<div th:replace="fragments/footer :: footer"></div>
 
@@ -80,8 +103,8 @@
 
 
 	</div>
+	<!-- fin conteneur -->
 
-	</div>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -97,4 +120,3 @@
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 		crossorigin="anonymous"></script>
 </body>
-</html>

@@ -5,16 +5,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.michel.tcp.model.auxiliaire.FormSeance;
+
 @Entity
 public class Echantillon {
-	
+
 	@Id
 	@GeneratedValue
 	private Integer id;
-	
+
 	@ManyToOne
 	private Seance seance;
-	
+
 	private String type; // DX200; APX200
 	private int position;
 	private Boolean actif;
@@ -22,7 +24,7 @@ public class Echantillon {
 	private Boolean pause;
 	private Boolean interrompu;
 	private Long compteur;
-	
+
 	public Echantillon() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -39,6 +41,50 @@ public class Echantillon {
 		this.pause = pause;
 		this.interrompu = interrompu;
 		this.compteur = compteur;
+	}
+
+	public Echantillon(FormSeance formSeance, Seance seance, int position) {
+
+		String typeEchantillon = null;
+		Long compteur = null;
+		Boolean actif = null;
+
+		switch (position) {
+
+		case 1:
+
+			typeEchantillon = formSeance.getType1();
+			compteur = formSeance.getCompteur1();
+			actif = formSeance.getActif1();
+			break;
+
+		case 2:
+
+			typeEchantillon = formSeance.getType2();
+			compteur = formSeance.getCompteur2();
+			actif = formSeance.getActif2();
+			break;
+
+		case 3:
+
+			typeEchantillon = formSeance.getType3();
+			compteur = formSeance.getCompteur3();
+			actif = formSeance.getActif3();
+			break;
+
+		}
+
+		
+
+		this.seance = seance;
+		this.type = typeEchantillon;
+		this.position = position;
+		this.actif = actif;
+		this.erreur = false;
+		this.pause = true;
+		this.interrompu = false;
+		this.compteur = compteur;
+
 	}
 
 	public Seance getSeance() {
@@ -105,7 +151,24 @@ public class Echantillon {
 		this.compteur = compteur;
 	}
 
+	@Override
+	public String toString() {
+		return "Echantillon [id=" + id + ", seance=" + seance + ", type=" + type + ", position=" + position + ", actif="
+				+ actif + ", erreur=" + erreur + ", pause=" + pause + ", interrompu=" + interrompu + ", compteur="
+				+ compteur + "]";
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
 	
 	
 	
+
 }

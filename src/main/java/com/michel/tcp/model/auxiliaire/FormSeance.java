@@ -1,5 +1,13 @@
 package com.michel.tcp.model.auxiliaire;
 
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import com.michel.tcp.model.Echantillon;
+import com.michel.tcp.model.Seance;
+
+
+
 public class FormSeance {
 	
 	private Integer id;
@@ -35,6 +43,25 @@ public class FormSeance {
 		this.compteur1 = compteur1;
 		this.compteur2 = compteur2;
 		this.compteur3 = compteur3;
+	}
+	
+	public FormSeance(Seance seance) {
+		
+		super();
+		this.id = seance.getId();
+		Description = seance.getDescription();
+		this.date = seance.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		List<Echantillon> echantillons = seance.getEchantillons();
+		this.type1 = echantillons.get(0).getType();
+		this.type2 = echantillons.get(1).getType();
+		this.type3 = echantillons.get(2).getType();
+		this.actif1 = echantillons.get(0).getActif();
+		this.actif2 = echantillons.get(1).getActif();
+		this.actif3 = echantillons.get(2).getActif();
+		this.compteur1 = echantillons.get(0).getCompteur();
+		this.compteur2 = echantillons.get(1).getCompteur();
+		this.compteur3 = echantillons.get(2).getCompteur();
+		
 	}
 
 	public Integer getId() {

@@ -28,12 +28,20 @@ public class Seance {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Seance(List<Echantillon> echantillons, String etat, Boolean actif) {
+	
+
+	public Seance(Integer id, List<Echantillon> echantillons, String description, LocalDateTime date, String etat,
+			Boolean actif) {
 		super();
+		this.id = id;
 		this.echantillons = echantillons;
+		this.description = description;
+		this.date = date;
 		this.etat = etat;
 		this.actif = actif;
 	}
+
+
 
 	public List<Echantillon> getEchantillons() {
 		return echantillons;
@@ -57,6 +65,38 @@ public class Seance {
 
 	public void setActif(Boolean actif) {
 		this.actif = actif;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public LocalDateTime getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDateTime date) {
+		this.date = date;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Seance [id=" + id + ", echantillons=" + echantillons + ", description=" + description + ", date=" + date
+				+ ", etat=" + etat + ", actif=" + actif + "]";
 	}
 	
 	
