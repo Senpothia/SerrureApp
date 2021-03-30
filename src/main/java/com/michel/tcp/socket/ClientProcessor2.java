@@ -20,7 +20,7 @@ public class ClientProcessor2 implements Runnable {
 		this.mySocket = socket;
 	}
 
-	// Le traitement
+	@Override
 	public void run() {
 
 		System.out.println("INFO$: Lancement du traitement des transferts vers le client");
@@ -30,35 +30,24 @@ public class ClientProcessor2 implements Runnable {
 
 			try {
 				writer = new PrintWriter(mySocket.getOutputStream());
-				//InputStreamReader inr = new InputStreamReader(mySocket.getInputStream());
-				//BufferedReader br = new BufferedReader(inr);
-				
-				if(SerrureAppApplication.ordre.isChanged())
-				
-				writer.println("ACQ");	
-				writer.flush();
-				SerrureAppApplication.ordre.setChanged(false);
+			
+				if(SerrureAppApplication.ordre.isChanged()) {
+					
+					writer.println("ACQ");	
+					writer.flush();
+					SerrureAppApplication.ordre.setChanged(false);
 
-				/*
-				 * 
-				 * if (SerrureAppApplication.chaine.isChange()) {
-				 * 
-				 * 
-				 * 
-				 * 
-				 * writer.println(SerrureAppApplication.chaine.getMessage());
-				 * writer.flush();
-				 * SerrureAppApplication.chaine.setChange(false);
-				 * SerrureAppApplication.chaine.setLecture(false); }
-				 * 
-				 */
+				}
+				
+				
+				
 				if (SerrureAppApplication.disconnectRequest) {
 					System.err.println("INFO$: COMMANDE CLOSE DETECTEE!");
 					writer = null;
 					reader = null;
 					mySocket.close();
 					SerrureAppApplication.disconnectRequest = false;
-					// WebAppSocketApplication.connexions.remove(connexion);
+					
 					break;
 				}
 
@@ -69,7 +58,7 @@ public class ClientProcessor2 implements Runnable {
 
 		}
 
-		// Tant que la connexion est active
+	
 
 	}
 

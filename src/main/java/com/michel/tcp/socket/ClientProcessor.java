@@ -54,8 +54,7 @@ public class ClientProcessor implements Runnable {
 					reader = null;
 					mySocket.close();
 					SerrureAppApplication.disconnectRequest = false;
-					// WebAppSocketApplication.connexions.remove(connexion);
-
+					
 				}
 
 			} catch (SocketException e) {
@@ -69,7 +68,7 @@ public class ClientProcessor implements Runnable {
 
 		System.out.println("Sortie");
 
-		// return;
+		
 	}
 
 	public void parseCode(String message) {
@@ -94,11 +93,11 @@ public class ClientProcessor implements Runnable {
 
 				} catch (Exception e) {
 
-					// toSend = "Syntax Error !";
+				
 
 				}
 
-				// WebAppSocketApplication.connexions.add(connexion);
+				
 
 			} else {
 
