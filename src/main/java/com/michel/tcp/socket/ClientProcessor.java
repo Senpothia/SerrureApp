@@ -12,21 +12,17 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
-
+import com.michel.tcp.SerrureAppApplication;
 
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
-public class ClientProcessor implements Runnable, Observer {
+public class ClientProcessor implements Runnable {
 	
 	private Socket mySocket;
 	private PrintWriter writer = null;
 	private BufferedInputStream reader = null;
-	private String IMEI = "";
-	private String IMSI = "";
 	
-	private LocalDateTime date;
-
 	public ClientProcessor(Socket socket) {
 		this.mySocket = socket;
 		
@@ -36,8 +32,8 @@ public class ClientProcessor implements Runnable, Observer {
 	public void run() {
 		System.out.println("INFO$: Lancement du traitement de la connexion d'un client");
 		boolean closeConnexion = false;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-	//	WebAppSocketApplication.connexions.add(connexion);
+		
+	
 		
 		// Tant que la connexion est active
 		while (!mySocket.isClosed()) {
@@ -48,50 +44,13 @@ public class ClientProcessor implements Runnable, Observer {
 					BufferedReader br = new BufferedReader(inr);
 					String response = br.readLine();
 					
-					if (!WebAppSocketApplication.chaine.isLecture()) {
-						
-						Transfert transfert = new Transfert();
-						transfert.setEnvoi(LocalDateTime.now().format(formatter));
-						transfert.setCommande(WebAppSocketApplication.chaine.getMessage());
-						System.out.println("Acquittement reçu: " + response);
-						LocalDateTime date = LocalDateTime.now();
-					
-						transfert.setAcquittement(response);
-						transfert.setRetour(LocalDateTime.now().format(formatter));
-						WebAppSocketApplication.transferts.add(transfert);
-						System.out.println("taille liste transferts: " + WebAppSocketApplication.transferts.size());
-						WebAppSocketApplication.chaine.setLecture(true);
-
-					}else {
-												
-						System.out.println("INFO$: Message reçu du client: " + response);
-
-						// On affiche quelques infos, pour le débuggage
-						//getInfoConnexion(mySocket, response);
-
-						// On traite la demande du client et on lui repond
-						String toSend = "";
-						
-						toSend = parseCode2(response, mySocket);
-						
-						System.out.println("INFO$: toSend = " + toSend);
-						// On envoie la reponse au client
-						if (!toSend.equals("")) {
-							
-							writer.println(toSend);
-							writer.flush();
-							
-						}
-						
-											
-					}
-				
-				if (WebAppSocketApplication.disconnectRequest) {
+			
+				if (SerrureAppApplication.disconnectRequest) {
 					System.err.println("INFO$: COMMANDE CLOSE DETECTEE!");
 					writer = null;
 					reader = null;
 					mySocket.close();
-					WebAppSocketApplication.disconnectRequest = false;
+					SerrureAppApplication.disconnectRequest = false;
 					//WebAppSocketApplication.connexions.remove(connexion);
 					
 				}
@@ -112,11 +71,7 @@ public class ClientProcessor implements Runnable, Observer {
 		// return;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	
 	public String parseCode2(String response, Socket mySocket) {
@@ -154,19 +109,14 @@ public class ClientProcessor implements Runnable, Observer {
 							boolean match = false;
 							int j = 0;
 
-							while (!match && j < WebAppSocketApplication.abonnes.size()) {
+							while (!match ) {
 
-								Imei i = WebAppSocketApplication.abonnes.get(j);
-								long c = i.getCode();
-								if (c == ei) {
-
-									toSend = "OK";
-									match = true;
 								
+							
+									//toSend = "OK";
+									
 
-								}
-
-								j++;
+							
 							}
 
 							if (!match) {

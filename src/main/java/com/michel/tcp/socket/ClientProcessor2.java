@@ -45,16 +45,11 @@ public class ClientProcessor2 implements Runnable {
 				InputStreamReader inr = new InputStreamReader(mySocket.getInputStream());
 				BufferedReader br = new BufferedReader(inr);
 				
-				if (SerrureAppApplication.buffer.isChange()) {
-					
-					
-				
-					writer.println(SerrureAppApplication.buffer.getCode());
+			
 					writer.flush();
-					SerrureAppApplication.buffer.setChange(false);
-					
-
-				}
+				
+				
+					/*
 
 				if (SerrureAppApplication.chaine.isChange()) {
 					
@@ -67,7 +62,7 @@ public class ClientProcessor2 implements Runnable {
 					SerrureAppApplication.chaine.setLecture(false);
 				}
 				
-
+*/
 				if (SerrureAppApplication.disconnectRequest) {
 					System.err.println("INFO$: COMMANDE CLOSE DETECTEE!");
 					writer = null;

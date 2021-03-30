@@ -8,6 +8,8 @@ import com.michel.tcp.socket.ServerTcp;
 @SpringBootApplication
 public class SerrureAppApplication {
 
+	public static boolean disconnectRequest = false;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SerrureAppApplication.class, args);
 		
