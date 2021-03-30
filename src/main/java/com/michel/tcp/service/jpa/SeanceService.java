@@ -14,7 +14,8 @@ public class SeanceService implements ISeanceService {
 	
 	@Autowired
 	SeanceRepo seanceRepo;
-
+	
+	
 	public void enregistrerSeance(Seance seance) {
 		
 		seanceRepo.save(seance);

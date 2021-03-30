@@ -1,17 +1,16 @@
 package com.michel.tcp.model;
 
-public class Ordre {
+public class Commande {
 	
 	public String message;
 	public boolean changed = false;
-	public String commande;
 	
-	public Ordre() {
+	public Commande() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Ordre(String message, boolean changed) {
+	public Commande(String message, boolean changed) {
 		super();
 		this.message = message;
 		this.changed = changed;

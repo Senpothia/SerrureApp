@@ -57,9 +57,9 @@ public class ServerTcp {
 						// Une fois reçu, on traite l'echange avec ce nouveau client dans un nouveau
 						// thread
 						System.out.println("INFO$: Une nouvelle connexion d'un client reçue!");
-						Thread newClientThread = new Thread(new ClientProcessor(clientSocket));
+						Thread newClientThread = new Thread(new ReaderProcessor(clientSocket));
 						newClientThread.start();
-						Thread newClientThread2 = new Thread(new ClientProcessor2(clientSocket));
+						Thread newClientThread2 = new Thread(new WriterProcessor(clientSocket));
 						newClientThread2.start();
 						
 					//	System.out.println("Fin de thread");

@@ -7,15 +7,23 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.michel.tcp.SerrureAppApplication;
+import com.michel.tcp.service.jpa.EchantillonService;
 
-public class ClientProcessor2 implements Runnable {
 
+public class WriterProcessor implements Runnable {
+
+	
 	private Socket mySocket;
 	private PrintWriter writer = null;
 	private BufferedInputStream reader = null;
+	
+	@Autowired
+	EchantillonService echantillonService;
 
-	public ClientProcessor2(Socket socket) {
+	public WriterProcessor(Socket socket) {
 		
 		this.mySocket = socket;
 	}
@@ -31,11 +39,11 @@ public class ClientProcessor2 implements Runnable {
 			try {
 				writer = new PrintWriter(mySocket.getOutputStream());
 			
-				if(SerrureAppApplication.ordre.isChanged()) {
+				if(SerrureAppApplication.rapport.isChanged()) {
 					
 					writer.println("ACQ");	
 					writer.flush();
-					SerrureAppApplication.ordre.setChanged(false);
+					SerrureAppApplication.rapport.setChanged(false);
 
 				}
 				
