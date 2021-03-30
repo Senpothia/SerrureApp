@@ -3,12 +3,14 @@ package com.michel.tcp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.michel.tcp.model.Ordre;
 import com.michel.tcp.socket.ServerTcp;
 
 @SpringBootApplication
 public class SerrureAppApplication {
 
 	public static boolean disconnectRequest = false;
+	public static Ordre ordre = new Ordre();
 
 	public static void main(String[] args) {
 		SpringApplication.run(SerrureAppApplication.class, args);

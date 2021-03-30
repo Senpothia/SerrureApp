@@ -18,12 +18,12 @@ public class Echantillon {
 	private Seance seance;
 
 	private String type; // DX200; APX200
-	private int position;
-	private Boolean actif;
-	private Boolean erreur;
-	private Boolean pause;
-	private Boolean interrompu;
-	private Long compteur;
+	private int position;  // 1, 2, ou 3 sur l'interface de test
+	private Boolean actif; // sélectionné pour le test
+	private Boolean erreur;  // mise en défaut en cours de test
+	private Boolean pause;   // suspension momentanée de l'essai
+	private Boolean interrompu;  // test stoppé
+	private Long compteur;       // nbre de cycle de test effectué
 
 	public Echantillon() {
 		super();
