@@ -1,56 +1,33 @@
 package com.michel.tcp.socket;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
+import com.michel.tcp.SerrureAppApplication;
+
 public class Centrale implements Runnable{
 	
-	private List<Socket> clients;
+	private Socket socket;
 	private int port = 5725;
-	private PrintWriter writer = null;
-	private BufferedInputStream reader = null;
+
 	
 	
-	public Centrale(List<Socket> clients, int port) {
+	public Centrale(Socket socket, int port) {
 		super();
-		this.clients = clients;
+		this.socket = socket;
 		this.port = port;
 	}
 
 	@Override
 	public void run() {
 	
-		ServerSocket server = null;
-		Socket sc = null;
-		
-		try {
+		while(!socket.isClosed()) {
 			
-			server = new ServerSocket(port);
-			System.out.println("INFO$: Serveur lancé");
 			
-			while(true) {
-				
-				
-				sc = server.accept();
-				System.out.println("INFO$: Nouveau client connecté");
-				clients.add(sc);
-				
-				writer = new PrintWriter(sc.getOutputStream());
-				InputStreamReader inr = new InputStreamReader(sc.getInputStream());
-				BufferedReader br = new BufferedReader(inr);
-				
-				
-			}
 			
-		}catch (Exception e) {
-			// TODO: handle exception
+			
 		}
-		
 		
 	
 		

@@ -89,26 +89,28 @@ public class ReaderProcessor implements Runnable {
 						
 					}
 					
-				SerrureAppApplication.seance.setEtat(strings[0]);
-				SerrureAppApplication.seance.setActif(Boolean.parseBoolean(strings[1]));
+				SerrureAppApplication.contexte.getSeance().setEtat(strings[0]);
+				SerrureAppApplication.contexte.getSeance().setActif(Boolean.parseBoolean(strings[1]));
 				
-				SerrureAppApplication.echantillons.get(0).setCompteur(Long.parseLong(strings[2]));
-				SerrureAppApplication.echantillons.get(0).setActif(Boolean.parseBoolean(strings[3]));
-				SerrureAppApplication.echantillons.get(0).setErreur(Boolean.parseBoolean(strings[4]));
-				SerrureAppApplication.echantillons.get(0).setPause(Boolean.parseBoolean(strings[5]));		
-				SerrureAppApplication.echantillons.get(0).setInterrompu(Boolean.parseBoolean(strings[6]));		
+				SerrureAppApplication.contexte.getEchantillon1().setCompteur(Long.parseLong(strings[2]));
+				SerrureAppApplication.contexte.getEchantillon1().setActif(Boolean.parseBoolean(strings[3]));
+				SerrureAppApplication.contexte.getEchantillon1().setErreur(Boolean.parseBoolean(strings[4]));
+				SerrureAppApplication.contexte.getEchantillon1().setPause(Boolean.parseBoolean(strings[5]));		
+				SerrureAppApplication.contexte.getEchantillon1().setInterrompu(Boolean.parseBoolean(strings[6]));		
 						
-				SerrureAppApplication.echantillons.get(1).setCompteur(Long.parseLong(strings[7]));
-				SerrureAppApplication.echantillons.get(1).setActif(Boolean.parseBoolean(strings[8]));
-				SerrureAppApplication.echantillons.get(1).setErreur(Boolean.parseBoolean(strings[9]));
-				SerrureAppApplication.echantillons.get(1).setPause(Boolean.parseBoolean(strings[10]));		
-				SerrureAppApplication.echantillons.get(1).setInterrompu(Boolean.parseBoolean(strings[11]));	
+				SerrureAppApplication.contexte.getEchantillon2().setCompteur(Long.parseLong(strings[7]));
+				SerrureAppApplication.contexte.getEchantillon2().setActif(Boolean.parseBoolean(strings[8]));
+				SerrureAppApplication.contexte.getEchantillon2().setErreur(Boolean.parseBoolean(strings[9]));
+				SerrureAppApplication.contexte.getEchantillon2().setPause(Boolean.parseBoolean(strings[10]));		
+				SerrureAppApplication.contexte.getEchantillon2().setInterrompu(Boolean.parseBoolean(strings[11]));	
 				
-				SerrureAppApplication.echantillons.get(2).setCompteur(Long.parseLong(strings[12]));
-				SerrureAppApplication.echantillons.get(2).setActif(Boolean.parseBoolean(strings[13]));
-				SerrureAppApplication.echantillons.get(2).setErreur(Boolean.parseBoolean(strings[14]));
-				SerrureAppApplication.echantillons.get(2).setPause(Boolean.parseBoolean(strings[15]));		
-				SerrureAppApplication.echantillons.get(2).setInterrompu(Boolean.parseBoolean(strings[16]));		
+				SerrureAppApplication.contexte.getEchantillon3().setCompteur(Long.parseLong(strings[12]));
+				SerrureAppApplication.contexte.getEchantillon3().setActif(Boolean.parseBoolean(strings[13]));
+				SerrureAppApplication.contexte.getEchantillon3().setErreur(Boolean.parseBoolean(strings[14]));
+				SerrureAppApplication.contexte.getEchantillon3().setPause(Boolean.parseBoolean(strings[15]));		
+				SerrureAppApplication.contexte.getEchantillon3().setInterrompu(Boolean.parseBoolean(strings[16]));
+				
+				SerrureAppApplication.contexte.setChanged(true);
 
 				} catch (Exception e) {
 

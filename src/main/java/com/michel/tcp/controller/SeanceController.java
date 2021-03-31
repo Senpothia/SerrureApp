@@ -44,12 +44,22 @@ public class SeanceController {
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
 
 		if (testUser(utilisateur)) {
+			
+			List<Seance> seances = seanceService.obtenirSeanceActive();
+			System.out.println("taille liste actives: " + seances.size());
+			System.out.println("null? :" +seances.isEmpty()); 
+			if(!seances.isEmpty()) {
+				
+				return "ok";
+				
+			}else {
 
 			String token = (String) session.getAttribute("TOKEN");
 			token = "Bearer " + token;
 			model.addAttribute("formSeance", new FormSeance());
 
 			return "creer";
+			}
 
 		} else {
 
@@ -64,56 +74,60 @@ public class SeanceController {
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
 
 		if (testUser(utilisateur)) {
+			
+		
+				
+				String token = (String) session.getAttribute("TOKEN");
+				token = "Bearer " + token;
+				model.addAttribute("formSeance", new FormSeance());
+				Seance seance = new Seance();
+				seance.setActif(true);
+				seance.setEtat(Constants.ARRETE);
+				seance.setDate(LocalDateTime.parse(formSeance.getDate() + " " + "00:00:00",
+						DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+				seance.setDescription(formSeance.getDescription());
 
-			String token = (String) session.getAttribute("TOKEN");
-			token = "Bearer " + token;
-			model.addAttribute("formSeance", new FormSeance());
-			Seance seance = new Seance();
-			seance.setActif(true);
-			seance.setEtat(Constants.ARRETE);
-			seance.setDate(LocalDateTime.parse(formSeance.getDate() + " " + "00:00:00",
-					DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-			seance.setDescription(formSeance.getDescription());
+				seanceService.enregistrerSeance(seance);
+				Integer id = seance.getId();
+				System.out.println("Id scéance: " + id);
+				Seance s = seanceService.obtenirSeanceParId(id);
 
-			seanceService.enregistrerSeance(seance);
-			Integer id = seance.getId();
-			System.out.println("Id scéance: " + id);
-			Seance s = seanceService.obtenirSeanceParId(id);
+				System.out.println(s.toString());
 
-			System.out.println(s.toString());
+				Echantillon echantillon1 = new Echantillon(formSeance, seance, 1);
+				Echantillon echantillon2 = new Echantillon(formSeance, seance, 2);
+				Echantillon echantillon3 = new Echantillon(formSeance, seance, 3);
 
-			Echantillon echantillon1 = new Echantillon(formSeance, seance, 1);
-			Echantillon echantillon2 = new Echantillon(formSeance, seance, 2);
-			Echantillon echantillon3 = new Echantillon(formSeance, seance, 3);
+				echantillon1.setSeance(s);
+				echantillon2.setSeance(s);
+				echantillon3.setSeance(s);
 
-			echantillon1.setSeance(s);
-			echantillon2.setSeance(s);
-			echantillon3.setSeance(s);
+				System.out.println(echantillon1.toString());
 
-			System.out.println(echantillon1.toString());
+				echantillonService.enregistrerEchantillon(echantillon1);
+				echantillonService.enregistrerEchantillon(echantillon2);
+				echantillonService.enregistrerEchantillon(echantillon3);
 
-			echantillonService.enregistrerEchantillon(echantillon1);
-			echantillonService.enregistrerEchantillon(echantillon2);
-			echantillonService.enregistrerEchantillon(echantillon3);
+				System.out.println(s.toString());
+				List<Echantillon> echantillons = new ArrayList<Echantillon>();
+				echantillons.add(echantillon1);
+				echantillons.add(echantillon2);
+				echantillons.add(echantillon3);
 
-			System.out.println(s.toString());
-			List<Echantillon> echantillons = new ArrayList<Echantillon>();
-			echantillons.add(echantillon1);
-			echantillons.add(echantillon2);
-			echantillons.add(echantillon3);
+				s.setEchantillons(echantillons);
+				seanceService.enregistrerSeance(s);
 
-			s.setEchantillons(echantillons);
-			seanceService.enregistrerSeance(s);
+				Seance s1 = seanceService.obtenirSeanceParId(id);
+				List<Echantillon> echs = s1.getEchantillons();
+				System.out.println("Taille liste echs: " + echs.size());
+				model.addAttribute("seance", s1);
+				int valeur = 0;
+				model.addAttribute("valeur", valeur);
 
-			Seance s1 = seanceService.obtenirSeanceParId(id);
-			List<Echantillon> echs = s1.getEchantillons();
-			System.out.println("Taille liste echs: " + echs.size());
-			model.addAttribute("seance", s1);
-			int valeur = 0;
-			model.addAttribute("valeur", valeur);
+				return Constants.BOARD;
 
-			return Constants.BOARD;
-
+			
+			
 		} else {
 
 			return "redirect:/connexion";
@@ -129,21 +143,28 @@ public class SeanceController {
 		if (testUser(utilisateur)) {
 
 			List<Seance> seances = seanceService.obtenirSeanceActive();
-			System.out.println("id de la seance active: " + seances.get(0).getId());
+			if(!seances.isEmpty()) {
+				
+				System.out.println("id de la seance active: " + seances.get(0).getId());
 
-			model.addAttribute("actif", true);
-			List<FormSeance> seancesForm = new ArrayList<FormSeance>();
-			for (Seance s : seances) {
+				model.addAttribute("actif", true);
+				List<FormSeance> seancesForm = new ArrayList<FormSeance>();
+				for (Seance s : seances) {
 
-				FormSeance fs = new FormSeance(s);
-				System.out.println("****date: " + fs.getDate());
-				seancesForm.add(fs);
+					FormSeance fs = new FormSeance(s);
+					System.out.println("****date: " + fs.getDate());
+					seancesForm.add(fs);
+				}
+				int id = seancesForm.get(0).getId();
+				model.addAttribute("seances", seancesForm);
+				model.addAttribute("suivre", true);
+				model.addAttribute("id", id);
+				return "listeSeances";
+			}else {
+				
+				return "ok";
 			}
-			int id = seancesForm.get(0).getId();
-			model.addAttribute("seances", seancesForm);
-			model.addAttribute("suivre", true);
-			model.addAttribute("id", id);
-			return "listeSeances";
+			
 
 		} else {
 
@@ -164,7 +185,7 @@ public class SeanceController {
 			List<Echantillon> echsBase = seanceBase.getEchantillons();
 			System.out.println("Taille liste echs: " + echsBase.size());
 			
-	
+			/*
 			Echantillon ech1Base = echsBase.get(0);
 			Echantillon e1Proto = SerrureAppApplication.echantillons.get(0);
 			ech1Base.setActif(e1Proto.getActif());
@@ -197,6 +218,72 @@ public class SeanceController {
 			seanceBase.setActif(SerrureAppApplication.seance.getActif());
 			seanceBase.setEtat(SerrureAppApplication.seance.getEtat());
 			seanceBase.setEchantillons(EchsNew);
+			*/
+			model.addAttribute("seance", seanceBase);
+			int valeur = 0;
+			model.addAttribute("valeur", valeur);
+
+			return Constants.BOARD;
+		} else {
+
+			return "redirect:/connexion";
+
+		}
+
+	}
+
+	
+	@GetMapping("/board")
+	public String board2(Model model, HttpSession session) {
+
+		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
+
+		if (testUser(utilisateur)) {
+			
+			List<Seance> seances = seanceService.obtenirSeanceActive();
+			Seance seanceBase = seances.get(0);
+			List<Echantillon> echsBase = seanceBase.getEchantillons();
+			System.out.println("Taille liste echs: " + echsBase.size());
+			
+			if (!SerrureAppApplication.contexte.getChanged()) {
+				
+				SerrureAppApplication.contexte.factory(seanceBase);
+				
+			}else {
+				
+				Seance seanceProto = SerrureAppApplication.contexte.getSeance();
+				
+				seanceBase.setActif(seanceProto.getActif());
+				seanceBase.setEtat(seanceProto.getEtat());
+				seanceService.enregistrerSeance(seanceBase);
+				
+				Echantillon ech1Base = echsBase.get(0);
+				ech1Base.setActif(SerrureAppApplication.contexte.getEchantillon1().getActif());
+				ech1Base.setErreur(SerrureAppApplication.contexte.getEchantillon1().getErreur());
+				ech1Base.setPause(SerrureAppApplication.contexte.getEchantillon1().getPause());
+				ech1Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon1().getInterrompu());
+				ech1Base.setCompteur(SerrureAppApplication.contexte.getEchantillon1().getCompteur());
+				echantillonService.enregistrerEchantillon(ech1Base);
+				
+				Echantillon ech2Base = echsBase.get(1);
+				ech2Base.setActif(SerrureAppApplication.contexte.getEchantillon2().getActif());
+				ech2Base.setErreur(SerrureAppApplication.contexte.getEchantillon2().getErreur());
+				ech2Base.setPause(SerrureAppApplication.contexte.getEchantillon2().getPause());
+				ech2Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon2().getInterrompu());
+				ech2Base.setCompteur(SerrureAppApplication.contexte.getEchantillon2().getCompteur());
+				echantillonService.enregistrerEchantillon(ech2Base);
+				
+				Echantillon ech3Base = echsBase.get(2);
+				ech3Base.setActif(SerrureAppApplication.contexte.getEchantillon3().getActif());
+				ech3Base.setErreur(SerrureAppApplication.contexte.getEchantillon3().getErreur());
+				ech3Base.setPause(SerrureAppApplication.contexte.getEchantillon3().getPause());
+				ech3Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon3().getInterrompu());
+				ech3Base.setCompteur(SerrureAppApplication.contexte.getEchantillon3().getCompteur());
+				echantillonService.enregistrerEchantillon(ech3Base);
+				
+				SerrureAppApplication.contexte.setChanged(false);
+				
+			}
 			
 			model.addAttribute("seance", seanceBase);
 			int valeur = 0;
@@ -211,6 +298,8 @@ public class SeanceController {
 
 	}
 
+	
+	
 	@GetMapping("/voir")
 	public String voir(Model model, HttpSession session) {
 
