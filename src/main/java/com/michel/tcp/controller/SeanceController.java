@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.michel.tcp.SerrureAppApplication;
 import com.michel.tcp.constants.Constants;
+import com.michel.tcp.model.Compteurs;
 import com.michel.tcp.model.Echantillon;
 import com.michel.tcp.model.Seance;
 import com.michel.tcp.model.Utilisateur;
@@ -132,6 +133,7 @@ public class SeanceController {
 			model.addAttribute("seance", s1);
 			int valeur = 0;
 			model.addAttribute("valeur", valeur);
+			model.addAttribute("compteurs", new Compteurs());
 
 			return Constants.BOARD;
 
@@ -287,10 +289,12 @@ public class SeanceController {
 				SerrureAppApplication.contexte.setChanged(false);
 
 			}
-
+			
+			Compteurs compteurs = new Compteurs();
 			model.addAttribute("seance", seanceBase);
 			int valeur = 0;
 			model.addAttribute("valeur", valeur);
+			model.addAttribute("compteurs", compteurs);
 
 			return Constants.BOARD;
 		} else {
@@ -457,6 +461,29 @@ public class SeanceController {
 		if (testUser(utilisateur)) {
 
 			SerrureAppApplication.contexte.setOrdre("@SERV:>START>" + num + ">#");
+			SerrureAppApplication.contexte.setChanged(true);
+
+			return "redirect:/board";
+
+		} else {
+
+			return "redirect:/connexion";
+
+		}
+
+	}
+
+	@PostMapping("/echantillon/set/{id}/{num}")
+	public String setCompteurEchantillon(@PathVariable(name = "id") Integer id, @PathVariable(name = "num") Integer num,
+			Model model, HttpSession session, Compteurs compteurs) {
+
+		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
+		System.out.println("Valeur compteur: " + compteurs.getCompteur());
+		if (testUser(utilisateur)) {
+			
+			SerrureAppApplication.contexte.setOrdre("@SERV:>C" + num + ">" + compteurs.getCompteur() + ">#");
+			Echantillon ech = SerrureAppApplication.contexte.getSeance().getEchantillons().get(num);
+			ech.setCompteur(compteurs.getCompteur());
 			SerrureAppApplication.contexte.setChanged(true);
 
 			return "redirect:/board";
