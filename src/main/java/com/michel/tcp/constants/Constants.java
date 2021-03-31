@@ -15,7 +15,7 @@ public class Constants {
 	public final static String AUTHORIZATION_HEADER = "Authorization";
 	public final static String BEARER_TOKEN = "Bearer ";
 	public static final String ARRET = "ARRET";
-	public static final String BOARD = "board2";
+	public static final String BOARD = "board";
 	
 	
 }
