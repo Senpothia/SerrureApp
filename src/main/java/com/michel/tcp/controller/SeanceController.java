@@ -134,7 +134,7 @@ public class SeanceController {
 			int valeur = 0;
 			model.addAttribute("valeur", valeur);
 			model.addAttribute("compteurs", new Compteurs());
-
+			SerrureAppApplication.contexte.setChanged(true);
 			return Constants.BOARD;
 
 		} else {
@@ -380,8 +380,10 @@ public class SeanceController {
 
 		if (testUser(utilisateur)) {
 
-			SerrureAppApplication.contexte.setOrdre("@SERV:>START>#");
-			SerrureAppApplication.contexte.setChanged(true);
+
+			SerrureAppApplication.commande.setMessage("@SERV:>START>#");
+			SerrureAppApplication.commande.setChanged(true);
+
 
 			return "redirect:/board";
 
@@ -399,8 +401,10 @@ public class SeanceController {
 
 		if (testUser(utilisateur)) {
 
-			SerrureAppApplication.contexte.setOrdre("@SERV:>PAUSE>#");
-			SerrureAppApplication.contexte.setChanged(true);
+
+			SerrureAppApplication.commande.setMessage("@SERV:>PAUSE>#");
+			SerrureAppApplication.commande.setChanged(true);
+
 
 			return "redirect:/board";
 
@@ -419,8 +423,8 @@ public class SeanceController {
 
 		if (testUser(utilisateur)) {
 
-			SerrureAppApplication.contexte.setOrdre("@SERV:>PAUSE>" + num + ">#");
-			SerrureAppApplication.contexte.setChanged(true);
+			SerrureAppApplication.commande.setMessage("@SERV:>PAUSE>" + num + ">#");
+			SerrureAppApplication.commande.setChanged(true);
 
 			return "redirect:/board";
 
@@ -439,8 +443,10 @@ public class SeanceController {
 
 		if (testUser(utilisateur)) {
 
-			SerrureAppApplication.contexte.setOrdre("@SERV:>STOP>" + num + ">#");
-			SerrureAppApplication.contexte.setChanged(true);
+
+			SerrureAppApplication.commande.setMessage("@SERV:>STOP>" + num + ">#");
+			SerrureAppApplication.commande.setChanged(true);
+
 
 			return "redirect:/board";
 
@@ -460,8 +466,8 @@ public class SeanceController {
 
 		if (testUser(utilisateur)) {
 
-			SerrureAppApplication.contexte.setOrdre("@SERV:>START>" + num + ">#");
-			SerrureAppApplication.contexte.setChanged(true);
+			SerrureAppApplication.commande.setMessage("@SERV:>START>" + num + ">#");
+			SerrureAppApplication.commande.setChanged(true);
 
 			return "redirect:/board";
 
@@ -481,10 +487,11 @@ public class SeanceController {
 		System.out.println("Valeur compteur: " + compteurs.getCompteur());
 		if (testUser(utilisateur)) {
 			
-			SerrureAppApplication.contexte.setOrdre("@SERV:>C" + num + ">" + compteurs.getCompteur() + ">#");
-			Echantillon ech = SerrureAppApplication.contexte.getSeance().getEchantillons().get(num);
+			SerrureAppApplication.commande.setMessage("@SERV:>C" + num + ">" + compteurs.getCompteur() + ">#");
+			Echantillon ech = SerrureAppApplication.contexte.getSeance().getEchantillons().get(num-1);
 			ech.setCompteur(compteurs.getCompteur());
 			SerrureAppApplication.contexte.setChanged(true);
+			SerrureAppApplication.commande.setChanged(true);
 
 			return "redirect:/board";
 
@@ -495,6 +502,8 @@ public class SeanceController {
 		}
 
 	}
+	
+	
 	/*
 	 * Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
 	 * 

@@ -41,19 +41,22 @@ public class WriterProcessor implements Runnable {
 			
 				if(SerrureAppApplication.rapport.isChanged()) {
 					
+					/* test
 					writer.println("ACQ");	
 					writer.flush();
 					SerrureAppApplication.rapport.setChanged(false);
+					*/
+					
+					// A faire: traitement du rapport reçu
 
 				}
 				
-				if(SerrureAppApplication.contexte.getChanged()) {
+				if(SerrureAppApplication.commande.isChanged()) {  // Transmission de la commande vers pi
 					
-					String commande = SerrureAppApplication.contexte.getOrdre();
+					String commande = SerrureAppApplication.commande.getMessage();
 					writer.println(commande);	
 					writer.flush();
-					SerrureAppApplication.contexte.setChanged(false);
-
+					SerrureAppApplication.commande.setChanged(false);
 					
 				}
 				
