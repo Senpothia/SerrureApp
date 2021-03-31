@@ -47,6 +47,16 @@ public class WriterProcessor implements Runnable {
 
 				}
 				
+				if(SerrureAppApplication.contexte.getChanged()) {
+					
+					String commande = SerrureAppApplication.contexte.getOrdre();
+					writer.println(commande);	
+					writer.flush();
+					SerrureAppApplication.contexte.setChanged(false);
+
+					
+				}
+				
 				
 				
 				if (SerrureAppApplication.disconnectRequest) {

@@ -106,13 +106,13 @@
 							<td style="text-align: center"><input type="number"
 								class="form-control">
 							<td />
-
+							<form th:action="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}" method="post" th:object="${formSeance}">
 							<td style="text-align: center"><a
 								th:href="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
-										type="text" class="btn btn-block"
+										type="submit" class="btn btn-block"
 										style="background-color: #093b71; color: white">Set</p></a>
 							<td />
-
+							</form>
 							<td style="text-align: center"><a
 								th:href="@{/echantillon/stop/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
 										type="text" class="btn btn-block"
@@ -152,8 +152,7 @@
 								style="background-color: #093b71; color: white; width: 350px;">Pause</p></a>
 					</div>
 
-				</span> </span> <span
-					th:if="${seance.etat == 'MARCHE' OR seance.etat == 'PAUSE'}">
+				</span> </span> <span th:if="${seance.etat == 'MARCHE' OR seance.etat == 'PAUSE'}">
 
 					<div class="form-group ">
 						<a th:href="@{/sceance/stop/{id}(id=${seance.id})}"><p

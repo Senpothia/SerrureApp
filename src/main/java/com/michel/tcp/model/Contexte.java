@@ -12,6 +12,7 @@ public class Contexte {
 	private Echantillon echantillon1 = new Echantillon();
 	private Echantillon echantillon2 = new Echantillon();
 	private Echantillon echantillon3 = new Echantillon();
+	private String ordre; 
 	
 	public Contexte() {
 		super();
@@ -87,8 +88,14 @@ public class Contexte {
 		SerrureAppApplication.contexte.echantillon3 = echs.get(2);
 		
 	}
-	
-	
+
+	public String getOrdre() {
+		return ordre;
+	}
+
+	public void setOrdre(String ordre) {
+		this.ordre = ordre;
+	}
 	
 
 }
