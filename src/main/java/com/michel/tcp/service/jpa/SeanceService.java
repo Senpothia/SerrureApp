@@ -28,7 +28,7 @@ public class SeanceService implements ISeanceService {
 		return seance;
 	}
 
-	public List<Seance> obtenirSeancesInanctives() {
+	public List<Seance> obtenirSeancesInactives() {
 		
 		List<Seance> seancesInactives = seanceRepo.findByActif(false);
 		

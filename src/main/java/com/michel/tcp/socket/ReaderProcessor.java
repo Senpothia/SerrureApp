@@ -61,7 +61,7 @@ public class ReaderProcessor implements Runnable {
 				}
 
 			} catch (SocketException e) {
-				System.err.println("INFO$: LA CONNEXION A ETE INTERROMPUE !");
+			
 
 			} catch (IOException e) {
 				e.printStackTrace();

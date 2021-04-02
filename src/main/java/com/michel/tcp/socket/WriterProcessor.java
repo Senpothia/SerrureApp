@@ -41,11 +41,11 @@ public class WriterProcessor implements Runnable {
 			
 				if(SerrureAppApplication.rapport.isChanged()) {
 					
-					/* test
+					 //test
 					writer.println("ACQ");	
 					writer.flush();
 					SerrureAppApplication.rapport.setChanged(false);
-					*/
+					
 					
 					// A faire: traitement du rapport reçu
 

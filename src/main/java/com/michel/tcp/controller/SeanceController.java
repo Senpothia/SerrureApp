@@ -313,7 +313,7 @@ public class SeanceController {
 		if (testUser(utilisateur)) {
 
 			List<Seance> seanceInactives = new ArrayList<Seance>();
-			seanceInactives = seanceService.obtenirSeancesInanctives();
+			seanceInactives = seanceService.obtenirSeancesInactives();
 			System.out.println("Taille liste seance inactives:" + seanceInactives.size());
 
 			model.addAttribute("actif", false);
@@ -358,13 +358,54 @@ public class SeanceController {
 
 			SerrureAppApplication.contexte.setOrdre("@SERV:>STOP>#");
 			SerrureAppApplication.contexte.setChanged(true);
+			Seance seanceProto = SerrureAppApplication.contexte.getSeance();
+			SerrureAppApplication.contexte.setChanged(true);
+			seanceProto.setEtat("ARRET");
+			seanceProto.setActif(false);
+			
+			/*
+			List<Seance> seances = seanceService.obtenirSeanceActive();
+			Seance seanceBase = seances.get(0);
+			List<Echantillon> echsBase = seanceBase.getEchantillons();
+			*/
+			//seanceBase.setActif(seanceProto.getActif());
+			//seanceBase.setActif(false);
+			seance.setEtat(seanceProto.getEtat());
+			seanceService.enregistrerSeance(seance);
+			List<Echantillon> echsBase = seance.getEchantillons();
+			Echantillon ech1Base = echsBase.get(0);
+			ech1Base.setActif(SerrureAppApplication.contexte.getEchantillon1().getActif());
+			ech1Base.setErreur(SerrureAppApplication.contexte.getEchantillon1().getErreur());
+			ech1Base.setPause(SerrureAppApplication.contexte.getEchantillon1().getPause());
+			ech1Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon1().getInterrompu());
+			ech1Base.setCompteur(SerrureAppApplication.contexte.getEchantillon1().getCompteur());
+			echantillonService.enregistrerEchantillon(ech1Base);
 
+			Echantillon ech2Base = echsBase.get(1);
+			ech2Base.setActif(SerrureAppApplication.contexte.getEchantillon2().getActif());
+			ech2Base.setErreur(SerrureAppApplication.contexte.getEchantillon2().getErreur());
+			ech2Base.setPause(SerrureAppApplication.contexte.getEchantillon2().getPause());
+			ech2Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon2().getInterrompu());
+			ech2Base.setCompteur(SerrureAppApplication.contexte.getEchantillon2().getCompteur());
+			echantillonService.enregistrerEchantillon(ech2Base);
+
+			Echantillon ech3Base = echsBase.get(2);
+			ech3Base.setActif(SerrureAppApplication.contexte.getEchantillon3().getActif());
+			ech3Base.setErreur(SerrureAppApplication.contexte.getEchantillon3().getErreur());
+			ech3Base.setPause(SerrureAppApplication.contexte.getEchantillon3().getPause());
+			ech3Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon3().getInterrompu());
+			ech3Base.setCompteur(SerrureAppApplication.contexte.getEchantillon3().getCompteur());
+			echantillonService.enregistrerEchantillon(ech3Base);
+			
+			
 			List<Seance> seanceInactives = new ArrayList<Seance>();
-			seanceInactives = seanceService.obtenirSeancesInanctives();
+			seanceInactives = seanceService.obtenirSeancesInactives();
 			System.out.println("Taille liste seance inactives:" + seanceInactives.size());
 			model.addAttribute("actif", false);
 			model.addAttribute("seances", seanceInactives);
 			return "listeSeances";
+			
+			//return "redirect:/suivre";
 
 		} else {
 
@@ -383,6 +424,10 @@ public class SeanceController {
 
 			SerrureAppApplication.commande.setMessage("@SERV:>START>#");
 			SerrureAppApplication.commande.setChanged(true);
+			Seance seanceProto = SerrureAppApplication.contexte.getSeance();
+			SerrureAppApplication.contexte.setChanged(true);
+			seanceProto.setEtat("MARCHE");
+		
 
 
 			return "redirect:/board";
@@ -404,6 +449,9 @@ public class SeanceController {
 
 			SerrureAppApplication.commande.setMessage("@SERV:>PAUSE>#");
 			SerrureAppApplication.commande.setChanged(true);
+			Seance seanceProto = SerrureAppApplication.contexte.getSeance();
+			SerrureAppApplication.contexte.setChanged(true);
+			seanceProto.setEtat("PAUSE");
 
 
 			return "redirect:/board";

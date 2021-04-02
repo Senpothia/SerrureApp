@@ -86,13 +86,17 @@
 
 		<div class="row mt-3">
 
-			<div class="col d-flex justify-content-center">
-				<div class="form-group ">
-					<a th:href="@{/board}"><p type="text"
-							class="btn btn-block"
-							style="background-color: #093b71; color: white; width: 350px;">Board</p></a>
+			<span th:if=${actif}>
+
+				<div class="col d-flex justify-content-center">
+					<div class="form-group ">
+						<a th:href="@{/board}"><p type="text" class="btn btn-block"
+								style="background-color: #093b71; color: white; width: 350px;">Board</p></a>
+					</div>
 				</div>
-			</div>
+
+			</span>
+
 			<div class="col d-flex justify-content-center">
 				<div class="form-group ">
 					<a href="/espace"><p type="text" class="btn btn-block"

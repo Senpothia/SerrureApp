@@ -74,8 +74,6 @@ public class Echantillon {
 
 		}
 
-		
-
 		this.seance = seance;
 		this.type = typeEchantillon;
 		this.position = position;
