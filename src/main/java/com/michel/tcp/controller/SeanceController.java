@@ -289,7 +289,7 @@ public class SeanceController {
 				SerrureAppApplication.contexte.setChanged(false);
 
 			}
-			
+
 			Compteurs compteurs = new Compteurs();
 			model.addAttribute("seance", seanceBase);
 			int valeur = 0;
@@ -362,14 +362,13 @@ public class SeanceController {
 			SerrureAppApplication.contexte.setChanged(true);
 			seanceProto.setEtat("ARRET");
 			seanceProto.setActif(false);
-			
+
 			/*
-			List<Seance> seances = seanceService.obtenirSeanceActive();
-			Seance seanceBase = seances.get(0);
-			List<Echantillon> echsBase = seanceBase.getEchantillons();
-			*/
-			//seanceBase.setActif(seanceProto.getActif());
-			//seanceBase.setActif(false);
+			 * List<Seance> seances = seanceService.obtenirSeanceActive(); Seance seanceBase
+			 * = seances.get(0); List<Echantillon> echsBase = seanceBase.getEchantillons();
+			 */
+			// seanceBase.setActif(seanceProto.getActif());
+			// seanceBase.setActif(false);
 			seance.setEtat(seanceProto.getEtat());
 			seanceService.enregistrerSeance(seance);
 			List<Echantillon> echsBase = seance.getEchantillons();
@@ -396,16 +395,15 @@ public class SeanceController {
 			ech3Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon3().getInterrompu());
 			ech3Base.setCompteur(SerrureAppApplication.contexte.getEchantillon3().getCompteur());
 			echantillonService.enregistrerEchantillon(ech3Base);
-			
-			
+
 			List<Seance> seanceInactives = new ArrayList<Seance>();
 			seanceInactives = seanceService.obtenirSeancesInactives();
 			System.out.println("Taille liste seance inactives:" + seanceInactives.size());
 			model.addAttribute("actif", false);
 			model.addAttribute("seances", seanceInactives);
 			return "listeSeances";
-			
-			//return "redirect:/suivre";
+
+			// return "redirect:/suivre";
 
 		} else {
 
@@ -421,14 +419,13 @@ public class SeanceController {
 
 		if (testUser(utilisateur)) {
 
-
-			SerrureAppApplication.commande.setMessage("@SERV:>START>#");
+			String prefixe = "@SERV:GO>START>";
+			String commande = sendOrder(prefixe);
+			SerrureAppApplication.commande.setMessage(commande);
 			SerrureAppApplication.commande.setChanged(true);
 			Seance seanceProto = SerrureAppApplication.contexte.getSeance();
 			SerrureAppApplication.contexte.setChanged(true);
 			seanceProto.setEtat("MARCHE");
-		
-
 
 			return "redirect:/board";
 
@@ -446,13 +443,11 @@ public class SeanceController {
 
 		if (testUser(utilisateur)) {
 
-
 			SerrureAppApplication.commande.setMessage("@SERV:>PAUSE>#");
 			SerrureAppApplication.commande.setChanged(true);
 			Seance seanceProto = SerrureAppApplication.contexte.getSeance();
 			SerrureAppApplication.contexte.setChanged(true);
 			seanceProto.setEtat("PAUSE");
-
 
 			return "redirect:/board";
 
@@ -491,10 +486,8 @@ public class SeanceController {
 
 		if (testUser(utilisateur)) {
 
-
 			SerrureAppApplication.commande.setMessage("@SERV:>STOP>" + num + ">#");
 			SerrureAppApplication.commande.setChanged(true);
-
 
 			return "redirect:/board";
 
@@ -534,9 +527,9 @@ public class SeanceController {
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
 		System.out.println("Valeur compteur: " + compteurs.getCompteur());
 		if (testUser(utilisateur)) {
-			
+
 			SerrureAppApplication.commande.setMessage("@SERV:>C" + num + ">" + compteurs.getCompteur() + ">#");
-			Echantillon ech = SerrureAppApplication.contexte.getSeance().getEchantillons().get(num-1);
+			Echantillon ech = SerrureAppApplication.contexte.getSeance().getEchantillons().get(num - 1);
 			ech.setCompteur(compteurs.getCompteur());
 			SerrureAppApplication.contexte.setChanged(true);
 			SerrureAppApplication.commande.setChanged(true);
@@ -550,8 +543,41 @@ public class SeanceController {
 		}
 
 	}
-	
-	
+
+	private String sendOrder(String prefixe) {
+		
+		 String commande = prefixe;
+		 String etat;  				// mode de marche dela  séquence en cours
+		 Boolean actif = false;    //  Etat de la séquence en cours
+		
+		Seance seance = SerrureAppApplication.contexte.getSeance();
+		etat = seance.getEtat();
+		actif = seance.getActif();
+		
+		List<Echantillon> echantillons = seance.getEchantillons();
+		
+		commande = commande 
+		+ "C1>" + Long.toString(echantillons.get(0).getCompteur())
+ 		+ ">A1>" + String.valueOf(echantillons.get(0).getActif())
+ 		+ ">E1>" + String.valueOf(echantillons.get(0).getErreur())
+ 		+ ">P1>" + String.valueOf(echantillons.get(0).getPause())
+ 		+ ">I1>" + String.valueOf(echantillons.get(0).getInterrompu())
+ 		+ ">C2>" + Long.toString(echantillons.get(1).getCompteur())
+ 		+ ">A2>" + String.valueOf(echantillons.get(1).getActif())
+ 		+ ">E2>" + String.valueOf(echantillons.get(1).getErreur())
+ 		+ ">P2>" + String.valueOf(echantillons.get(1).getPause())
+ 		+ ">I2>" + String.valueOf(echantillons.get(2).getInterrompu())
+ 		+ ">C3>" + Long.toString(echantillons.get(2).getCompteur())
+ 		+ ">A3>" + String.valueOf(echantillons.get(2).getActif())
+ 		+ ">E3>" + String.valueOf(echantillons.get(2).getErreur())
+ 		+ ">P3>" + String.valueOf(echantillons.get(2).getPause())
+		+ ">I3>" + String.valueOf(echantillons.get(2).getInterrompu())
+		+ ">#";
+ 		
+		System.out.println("Commande sendOrder:" + commande);
+		return commande;
+	}
+
 	/*
 	 * Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
 	 * 

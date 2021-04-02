@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 
 import com.michel.tcp.model.BaseHandler;
@@ -32,11 +33,12 @@ public class SerrureAppApplication {
 	
 	public static void main(String[] args) {
 		
-		SpringApplication.run(SerrureAppApplication.class, args);
+		
+		ApplicationContext applicationContext = SpringApplication.run(SerrureAppApplication.class, args);
 		
 		int port = 5725;
 	
-		ServerTcp ts = new ServerTcp(port, 100);
+		ServerTcp ts = new ServerTcp(port, 100); //, applicationContext);
 		ts.open();
 
 		System.out.println("INFO$: Serveur initialisé.");

@@ -5,15 +5,19 @@ import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.context.ApplicationContext;
+
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 
 public class ServerTcp {
-	
+
 	private int port = 5725;
 	private int maxSockets = 10;
 	private ServerSocket server = null;
 	private boolean isRunning = true;
+
+	//private ApplicationContext applicationContext;
 
 	public ServerTcp() {
 		try {
@@ -24,9 +28,10 @@ public class ServerTcp {
 		}
 	}
 
-	public ServerTcp(int bindPort, int maxClientConnexions) {
+	public ServerTcp(int bindPort, int maxClientConnexions) {  //, ApplicationContext applicationContext) {
 		this.port = bindPort;
 		this.maxSockets = maxClientConnexions;
+		//this.applicationContext = applicationContext;
 		try {
 			server = new ServerSocket(this.port, this.maxSockets);
 
@@ -38,8 +43,9 @@ public class ServerTcp {
 	// Pour lancer le serveur
 	public void open() {
 		// On lance le serveur sur un thread à part car il a une boucle infine
-		Thread serverThread = new Thread(new Runnable() {  // Définition du Thread
+		Thread serverThread = new Thread(new Runnable() { // Définition du Thread
 			public void run() {
+
 				while (isRunning == true) {
 					try {
 						// On attend une connexion d'un client
@@ -52,18 +58,27 @@ public class ServerTcp {
 
 						// ****************************
 
-					
-						
 						// Une fois reçu, on traite l'echange avec ce nouveau client dans un nouveau
 						// thread
 						System.out.println("INFO$: Une nouvelle connexion d'un client reçue!");
-						Thread newClientThread = new Thread(new ReaderProcessor(clientSocket));
-						newClientThread.start();
-						Thread newClientThread2 = new Thread(new WriterProcessor(clientSocket));
-						newClientThread2.start();
 						
-					//	System.out.println("Fin de thread");
-					//	WebAppSocketApplication.connexions.remove(connexion);
+						  Thread newClientThread = new Thread(new ReaderProcessor(clientSocket));
+						  newClientThread.start(); 
+						  Thread newClientThread2 = new Thread(new
+						  WriterProcessor(clientSocket)); newClientThread2.start();
+						 
+						/*
+						ReaderProcessor reader = applicationContext.getBean(ReaderProcessor.class);
+						reader.setMySocket(clientSocket);
+						WriterProcessor writer = applicationContext.getBean(WriterProcessor.class);
+						writer.setMySocket(clientSocket);
+						Thread newClientThread = new Thread(reader);
+						newClientThread.start();
+						Thread newClientThread2 = new Thread(writer);
+						newClientThread2.start();
+						*/
+						// System.out.println("Fin de thread");
+						// WebAppSocketApplication.connexions.remove(connexion);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -80,13 +95,12 @@ public class ServerTcp {
 			}
 		});
 
-		serverThread.start();   // lancement du Thread
+		serverThread.start(); // lancement du Thread
 	}
 
 	// Pour arreter le serveur
 	public void close() {
 		this.isRunning = false;
 	}
-
 
 }

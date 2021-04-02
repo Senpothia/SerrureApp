@@ -8,11 +8,16 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.michel.tcp.SerrureAppApplication;
 import com.michel.tcp.service.jpa.EchantillonService;
 
-
+/*
+@Component
+@Scope("prototype")
+*/
 public class WriterProcessor implements Runnable {
 
 	
@@ -27,6 +32,44 @@ public class WriterProcessor implements Runnable {
 		
 		this.mySocket = socket;
 	}
+	
+	
+
+	public Socket getMySocket() {
+		return mySocket;
+	}
+
+
+
+	public void setMySocket(Socket mySocket) {
+		this.mySocket = mySocket;
+	}
+
+
+
+	public PrintWriter getWriter() {
+		return writer;
+	}
+
+
+
+	public void setWriter(PrintWriter writer) {
+		this.writer = writer;
+	}
+
+
+
+	public BufferedInputStream getReader() {
+		return reader;
+	}
+
+
+
+	public void setReader(BufferedInputStream reader) {
+		this.reader = reader;
+	}
+
+
 
 	@Override
 	public void run() {

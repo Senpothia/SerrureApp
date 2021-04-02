@@ -10,11 +10,17 @@ import java.net.SocketException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.michel.tcp.SerrureAppApplication;
 import com.michel.tcp.model.Seance;
 import com.michel.tcp.service.jpa.SeanceService;
 
+/*
+@Component
+@Scope("prototype")
+*/
 public class ReaderProcessor implements Runnable {
 
 	private Socket mySocket;
@@ -25,6 +31,27 @@ public class ReaderProcessor implements Runnable {
 		this.mySocket = socket;
 		
 	}
+	
+	
+	public Socket getMySocket() {
+		return mySocket;
+	}
+
+
+	public void setMySocket(Socket mySocket) {
+		this.mySocket = mySocket;
+	}
+
+
+	public BufferedInputStream getReader() {
+		return reader;
+	}
+
+
+	public void setReader(BufferedInputStream reader) {
+		this.reader = reader;
+	}
+
 
 	@Override
 	public void run() {
