@@ -251,11 +251,13 @@ public class SeanceController {
 			System.out.println("Taille liste echs: " + echsBase.size());
 
 			if (!SerrureAppApplication.contexte.getChanged()) {
-
+				
+				System.out.println("Contexte inchangé");
 				SerrureAppApplication.contexte.factory(seanceBase);
 
 			} else {
-
+				
+				System.out.println("Contexte changé");
 				Seance seanceProto = SerrureAppApplication.contexte.getSeance();
 
 				seanceBase.setActif(seanceProto.getActif());
@@ -552,8 +554,8 @@ public class SeanceController {
 	private String sendOrder(String prefixe) {
 		
 		 String commande = prefixe;
-		 String etat;  				// mode de marche dela  séquence en cours
-		 Boolean actif = false;    //  Etat de la séquence en cours
+		 String etat;  				// mode de marche de la séquence en cours
+		 Boolean actif = true;    //  Etat de la séquence en cours
 		
 		Seance seance = SerrureAppApplication.contexte.getSeance();
 		etat = seance.getEtat();

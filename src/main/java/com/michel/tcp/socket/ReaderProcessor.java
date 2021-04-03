@@ -105,7 +105,8 @@ public class ReaderProcessor implements Runnable {
 		try {
 
 			if (message.startsWith("pi:>") && message.endsWith("#")) {// ****
-
+				
+				System.out.println("Match parsing!");
 				try {
 
 					String sub = message.substring(4);
@@ -120,6 +121,7 @@ public class ReaderProcessor implements Runnable {
 				SerrureAppApplication.contexte.getSeance().setActif(Boolean.parseBoolean(strings[1]));
 				
 				SerrureAppApplication.contexte.getEchantillon1().setCompteur(Long.parseLong(strings[2]));
+				
 				SerrureAppApplication.contexte.getEchantillon1().setActif(Boolean.parseBoolean(strings[3]));
 				SerrureAppApplication.contexte.getEchantillon1().setErreur(Boolean.parseBoolean(strings[4]));
 				SerrureAppApplication.contexte.getEchantillon1().setPause(Boolean.parseBoolean(strings[5]));		
@@ -137,9 +139,13 @@ public class ReaderProcessor implements Runnable {
 				SerrureAppApplication.contexte.getEchantillon3().setPause(Boolean.parseBoolean(strings[15]));		
 				SerrureAppApplication.contexte.getEchantillon3().setInterrompu(Boolean.parseBoolean(strings[16]));
 				
+				
 				SerrureAppApplication.contexte.setChanged(true);
+				System.out.println("Changed: " + 	SerrureAppApplication.contexte.getChanged());
 
 				} catch (Exception e) {
+					
+					System.err.println("Défaut parser!");
 
 				}
 

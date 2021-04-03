@@ -110,29 +110,26 @@
 								<td style="text-align: center"><a th:href="@{/board}"><p
 											type="text" class="btn btn-block"
 											style="background-color: red; color: white">Stoppé!</p></a>
-									<td />
+							<td />
 							</span>
-						
+
 
 							<form
-										th:action="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"
-										method="post" th:object="${compteurs}">
-										<td style="text-align: center"><input type="number"
-											class="form-control" th:field="*{compteur}"
-											required="required"><td />
+								th:action="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"
+								method="post" th:object="${compteurs}">
+								<td style="text-align: center"><input type="number"
+									class="form-control" th:field="*{compteur}" required="required">
+								<td />
 
-							<td style="text-align: center"><input type="submit"
-											class="btn mb-1 bouton2"
-											style="background-color: #093b71; color: white;" value="Set">
-							
-							<td />
+								<td style="text-align: center"><input type="submit"
+									class="btn mb-1 bouton2"
+									style="background-color: #093b71; color: white;" value="Set">
+								<td />
 							</form>
 							<td style="text-align: center"><a
 								th:href="@{/echantillon/stop/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
 										type="text" class="btn btn-block"
 										style="background-color: #093b71; color: white">Stop</p></a>
-							
-							
 							<td />
 
 
@@ -211,4 +208,8 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 		crossorigin="anonymous"></script>
+
+	<script>
+		setTimeout("location.reload(true);", 5000);
+	</script>
 </body>

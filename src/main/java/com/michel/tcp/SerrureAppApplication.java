@@ -27,8 +27,8 @@ public class SerrureAppApplication {
 	
 	public static boolean disconnectRequest = false;
 	public static Commande commande = new Commande();     // ordre envoyé vers pi
-	public static Rapport rapport = new Rapport();     // rapport reçu de pi
-	public static Integer id; // id scéance en cours
+	public static Rapport rapport = new Rapport();    	  // rapport reçu de pi
+	public static Integer id; 							  // id scéance en cours
 	public static Contexte contexte = new Contexte();
 	
 	public static void main(String[] args) {
