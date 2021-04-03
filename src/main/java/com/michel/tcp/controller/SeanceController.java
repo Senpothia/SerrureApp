@@ -401,6 +401,11 @@ public class SeanceController {
 			System.out.println("Taille liste seance inactives:" + seanceInactives.size());
 			model.addAttribute("actif", false);
 			model.addAttribute("seances", seanceInactives);
+			
+			String commande = "@SERV:>STOP>#";
+			SerrureAppApplication.commande.setMessage(commande);
+			SerrureAppApplication.commande.setChanged(true);
+			
 			return "listeSeances";
 
 			// return "redirect:/suivre";
