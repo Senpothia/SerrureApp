@@ -64,11 +64,11 @@ public class ReaderProcessor implements Runnable {
 
 				InputStreamReader inr = new InputStreamReader(mySocket.getInputStream());
 				BufferedReader br = new BufferedReader(inr);
-				String reception = br.readLine(); // Lecture
+				String reception = br.readLine(); 				 // Lecture du rapport de pi
 
 				System.out.println("Rapport réçu: " + reception);
 				SerrureAppApplication.rapport.setMessage(reception);
-				SerrureAppApplication.rapport.setChanged(true);
+				SerrureAppApplication.rapport.setChanged(true);   // notification pour acquittement reception rapport
 
 				parseCode(reception);
 

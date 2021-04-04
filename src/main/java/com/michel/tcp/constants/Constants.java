@@ -16,6 +16,8 @@ public class Constants {
 	public final static String BEARER_TOKEN = "Bearer ";
 	public static final String ARRET = "ARRET";
 	public static final String BOARD = "board";
+	public static final String MARCHE = "MARCHE";
+	public static final String PAUSE = "PAUSE";
 	
 	
 }

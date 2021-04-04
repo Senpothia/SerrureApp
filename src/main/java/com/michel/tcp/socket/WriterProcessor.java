@@ -84,14 +84,12 @@ public class WriterProcessor implements Runnable {
 			
 				if(SerrureAppApplication.rapport.isChanged()) {
 					
-					 //test
+					 // Acquittement de la reception du rapport
+					
 					writer.println("ACQ");	
 					writer.flush();
 					SerrureAppApplication.rapport.setChanged(false);
 					
-					
-					// A faire: traitement du rapport reçu
-
 				}
 				
 				if(SerrureAppApplication.commande.isChanged()) {  // Transmission de la commande vers pi
