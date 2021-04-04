@@ -13,10 +13,14 @@ public class Contexte {
 	private Echantillon echantillon2 = new Echantillon();
 	private Echantillon echantillon3 = new Echantillon();
 	private String ordre; 
+
 	
 	public Contexte() {
 		super();
 		this.changed = false;
+		this.echantillon1.setSeance(this.seance);
+		this.echantillon2.setSeance(this.seance);
+		this.echantillon3.setSeance(this.seance);
 	}
 
 	public Contexte(Boolean changed, Seance seance, Echantillon echantillon1, Echantillon echantillon2,
@@ -27,6 +31,9 @@ public class Contexte {
 		this.echantillon1 = echantillon1;
 		this.echantillon2 = echantillon2;
 		this.echantillon3 = echantillon3;
+		this.echantillon1.setSeance(this.seance);
+		this.echantillon2.setSeance(this.seance);
+		this.echantillon3.setSeance(this.seance);
 	}
 
 	public Boolean getChanged() {

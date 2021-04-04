@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import com.michel.tcp.model.auxiliaire.FormSeance;
 
 @Entity
-public class Echantillon {
+public class Echantillon implements Comparable<Echantillon>{
 
 	@Id
 	@GeneratedValue
@@ -162,6 +162,12 @@ public class Echantillon {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@Override
+	public int compareTo(Echantillon echantillon) {
+		
+		return (this.position - echantillon.position);
 	}
 
 

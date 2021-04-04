@@ -18,6 +18,8 @@ public class Constants {
 	public static final String BOARD = "board";
 	public static final String MARCHE = "MARCHE";
 	public static final String PAUSE = "PAUSE";
-	
+	public static final String DEMARRER = "@SERV:>START>#";
+	public static final String ARRETER = "@SERV:>STOP>#";
+	public static final String PREFIXE_GO ="@SERV:GO>START>";
 	
 }

@@ -70,12 +70,13 @@
 
 							<td style="text-align: center"><span
 								th:if="${echantillon.actif}"> <span
-									th:unless="${echantillon.erreur}"><img class="img-fluid"
+									th:if="${not echantillon.erreur and not echantillon.pause}"><img class="img-fluid"
 										src="/images/vert.png" alt="" th:src="@{/images/vert.png}" /></span>
 									<span th:if="${echantillon.erreur}"><img
 										class="img-fluid" src="/imges/rouge.png" alt=""
-										th:src="@{/images/rouge.png}" /></span>
-
+										th:src="@{/images/rouge.png}" /></span> <span
+									th:if="${echantillon.pause}"><img class="img-fluid"
+										src="/imges/jaune.png" alt="" th:src="@{/images/jaune.png}" /></span>
 							</span> <span th:unless="${echantillon.actif}"><img
 									class="img-fluid" src="/imges/inactif.png" alt=""
 									th:src="@{/images/inactif.png}" /></span></td>
@@ -210,6 +211,6 @@
 		crossorigin="anonymous"></script>
 
 	<script>
-		setTimeout("location.reload(true);", 5000);
+		setTimeout("location.reload(true);", 10000);
 	</script>
 </body>
