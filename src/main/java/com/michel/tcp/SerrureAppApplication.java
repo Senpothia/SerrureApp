@@ -36,7 +36,7 @@ public class SerrureAppApplication {
 		
 		ApplicationContext applicationContext = SpringApplication.run(SerrureAppApplication.class, args);
 		
-		int port = 5725;
+		int port = 6239;
 	
 		ServerTcp ts = new ServerTcp(port, 100); //, applicationContext);
 		ts.open();

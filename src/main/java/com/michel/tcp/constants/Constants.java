@@ -2,6 +2,7 @@ package com.michel.tcp.constants;
 
 public class Constants {
 
+	public static final int PORT = 6239;	
 	public static final String PAGE_ACCUEIL = "accueil";
 	public static final String AIDE = "aide";
 	public static final String PRESENTATION = "presentation";

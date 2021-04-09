@@ -12,7 +12,7 @@ import java.net.ServerSocket;
 
 public class ServerTcp {
 
-	private int port = 5725;
+	private int port = 6239;
 	private int maxSockets = 10;
 	private ServerSocket server = null;
 	private boolean isRunning = true;

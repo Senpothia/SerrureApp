@@ -1,0 +1,121 @@
+.message{
+	
+	margin: 20px;
+	
+}
+
+.formulaire{
+	
+	margin: 70px;
+	
+}
+
+.bouton{
+	
+	
+	margin: 15px;
+	
+	
+}
+
+.validations{
+	
+	margin-top:82px;
+}
+.informations{
+	
+	border: 1px solid ;
+	border-radius: 8px;
+	margin: 10px;
+	
+}
+
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #4d4e4d;
+  background-color: #d3d3d3;
+  border: 1px solid #000000;
+}
+.page-item.disabled .page-link {
+  color: #868e96;
+  pointer-events: none;
+  cursor: auto;
+  background-color: #FFFFFF;
+  border-color: #000000;
+}
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #4d4e4d;
+  border-color: #000000;
+}
+.page-link:focus, .page-link:hover {
+  color: #fff;
+  text-decoration: none;
+  background-color: #4d4e4d;
+  border-color: #000000;
+}
+
+.identification{
+	
+	border: 1px solid #000000;
+	border-radius: 8px;
+}
+
+.identif{
+			
+			border-radius: 5px;
+			padding: 5px 10px;
+		}
+		
+.identif2{
+			
+			marging: 0px;
+			border-radius: 5px;
+			border: 1px solid ;
+			padding: 5px 5px;
+		}	
+	
+.a_fragment{
+	
+	text-decoration: none;
+	color: white;
+}
+
+a:hover {
+
+	text-decoration: none;
+	color: white;
+}
+
+.donnees{
+	border: 1px solid ;
+	border-radius: 8px;
+	padding: 10px
+	
+}
+
+.bouton2{
+	
+	margin: 5px;
+	width: 220px;
+	
+}
+
+
+
+.bouton3{
+	
+	margin: 5px;
+	width: 150px;
+	
+}
+.navigation:hover{
+	
+ background-color: #0069d9;	
+}

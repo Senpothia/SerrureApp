@@ -35,6 +35,66 @@
 			</div>
 		</div>
 		<!-- ----------------- -->
+
+		<div class="row d-flex justify-content-center">
+
+			<h1>Détail de la scéance d'endurance</h1>
+
+		</div>
+		<span th:if=${fin}>
+
+			<div class="row d-flex justify-content-center">
+
+				<h2 style="color:red;">La séquence est terminée!</h2>
+
+			</div>
+
+		</span>
+
+
+
+		<div class="row">
+
+			<div class="col donnees" style="margin: 5px;">
+
+
+
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+
+							<th style="text-align: center" scope="col">Description</th>
+							<th style="text-align: center" scope="col">Date</th>
+
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+
+
+							<td style="text-align: center" th:text="${seance.description}" />
+							<td style="text-align: center" th:text="${seance.date}" />
+
+
+
+						</tr>
+
+					</tbody>
+				</table>
+
+
+
+
+
+			</div>
+
+
+		</div>
+
+
+
 		<div class="row d-flex justify-content-center">
 
 			<h1>Liste des échantillons</h1>
@@ -70,13 +130,12 @@
 
 							<td style="text-align: center"><span
 								th:if="${echantillon.actif}"> <span
-									th:if="${not echantillon.erreur and not echantillon.pause}"><img class="img-fluid"
+									th:unless="${echantillon.erreur}"><img class="img-fluid"
 										src="/images/vert.png" alt="" th:src="@{/images/vert.png}" /></span>
 									<span th:if="${echantillon.erreur}"><img
 										class="img-fluid" src="/imges/rouge.png" alt=""
-										th:src="@{/images/rouge.png}" /></span> <span
-									th:if="${echantillon.pause}"><img class="img-fluid"
-										src="/imges/jaune.png" alt="" th:src="@{/images/jaune.png}" /></span>
+										th:src="@{/images/rouge.png}" /></span>
+
 							</span> <span th:unless="${echantillon.actif}"><img
 									class="img-fluid" src="/imges/inactif.png" alt=""
 									th:src="@{/images/inactif.png}" /></span></td>
@@ -84,54 +143,6 @@
 							<td />
 
 							<td style="text-align: center" th:text="${echantillon.compteur}" />
-
-							<span th:if=${echantillon.pause}>
-
-								<td style="text-align: center"><a
-									th:href="@{/echantillon/start/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
-											type="text" class="btn btn-block"
-											style="background-color: #093b71; color: white">Start</p></a>
-							<td />
-							</span>
-
-							<span th:unless=${echantillon.pause}> <span
-								th:unless=${echantillon.interrompu}>
-
-									<td style="text-align: center"><a
-										th:href="@{/echantillon/pause/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
-												type="text" class="btn btn-block"
-												style="background-color: #093b71; color: white">pause</p></a>
-								<td />
-							</span>
-
-							</span>
-
-							<span th:if=${echantillon.interrompu}>
-
-								<td style="text-align: center"><a th:href="@{/board}"><p
-											type="text" class="btn btn-block"
-											style="background-color: red; color: white">Stoppé!</p></a>
-							<td />
-							</span>
-
-
-							<form
-								th:action="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"
-								method="post" th:object="${compteurs}">
-								<td style="text-align: center"><input type="number"
-									class="form-control" th:field="*{compteur}" required="required">
-								<td />
-
-								<td style="text-align: center"><input type="submit"
-									class="btn mb-1 bouton2"
-									style="background-color: #093b71; color: white;" value="Set">
-								<td />
-							</form>
-							<td style="text-align: center"><a
-								th:href="@{/echantillon/stop/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
-										type="text" class="btn btn-block"
-										style="background-color: #093b71; color: white">Stop</p></a>
-							<td />
 
 
 						</tr>
@@ -150,31 +161,6 @@
 
 		<div class="row mt-3">
 			<div class="col d-flex justify-content-center">
-
-				<span th:if="${seance.etat == 'ARRET' OR seance.etat == 'PAUSE'}">
-
-					<div class="form-group ">
-						<a th:href="@{/sceance/start/{id}(id=${seance.id})}"><p
-								type="text" class="btn btn-block mr-3"
-								style="background-color: #093b71; color: white; width: 350px;">Start</p></a>
-					</div>
-
-				</span> <span th:if="${seance.etat == 'MARCHE'}">
-					<div class="form-group ">
-						<a th:href="@{/sceance/pause/{id}(id=${seance.id})}"><p
-								type="text" class="btn btn-block mr-3"
-								style="background-color: #093b71; color: white; width: 350px;">Pause</p></a>
-					</div>
-
-				</span> </span> <span th:if="${seance.etat == 'MARCHE' OR seance.etat == 'PAUSE'}">
-
-					<div class="form-group ">
-						<a th:href="@{/sceance/stop/{id}(id=${seance.id})}"><p
-								type="text" class="btn btn-block mr-3"
-								style="background-color: #093b71; color: white; width: 350px;">Arrêter</p></a>
-					</div>
-
-				</span>
 
 				<div class="form-group ">
 					<a href="/espace"><p type="text" class="btn btn-block"
@@ -209,10 +195,4 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 		crossorigin="anonymous"></script>
-<!-- 
-	<script>
-		setTimeout("location.reload(true);", 10000);
-	</script>
-	
-	 -->
 </body>
