@@ -605,6 +605,24 @@ public class SeanceController {
 		}
 
 	}
+	
+	@PostMapping("/echantillon/set/inhibition")
+	
+	public String noSetCompteur(Model model, HttpSession session) {
+		
+		
+		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
+		
+		if (testUser(utilisateur)) {
+
+			return "redirect:/board";
+
+		} else {
+
+			return "redirect:/connexion";
+
+		}
+	}
 
 	private String sendOrder(String prefixe) {
 

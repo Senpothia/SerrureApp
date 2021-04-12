@@ -112,8 +112,10 @@
 								<td />
 							</span>
 
-
-								<form
+					<span th:if="${echantillon.actif}">
+					
+					
+						<form
 									th:action="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"
 									method="post" th:object="${compteurs}">
 									<td style="text-align: center"><input type="number"
@@ -126,6 +128,29 @@
 										style="background-color: #093b71; color: white;" value="Set">
 									<td />
 								</form>
+					
+					</span>
+							
+								<span th:unless="${echantillon.actif}">
+					
+					
+						<form
+									th:action="@{/echantillon/set/inhibition}"
+									method="post" th:object="${compteurs}">
+									<td style="text-align: center"><input type="number"
+										class="form-control" th:field="*{compteur}"
+										required="required">
+									<td />
+
+									<td style="text-align: center"><input type="submit"
+										class="btn mb-1 bouton2"
+										style="background-color: #093b71; color: white;" value="Set">
+									<td />
+								</form>
+					
+					</span>
+							
+								
 								<td style="text-align: center"><a
 									th:href="@{/echantillon/stop/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
 											type="text" class="btn btn-block"
