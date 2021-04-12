@@ -78,65 +78,65 @@
 
 							<td style="text-align: center" th:text="${echantillon.compteur}" />
 
-							<span th:if="${echantillon.pause and not echantillon.erreur}">
-
-								<td style="text-align: center"><a
-									th:href="@{/echantillon/start/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
-											type="text" class="btn btn-block"
-											style="background-color: #093b71; color: white">Start</p></a>
-							<td />
-							</span>
-
-							<span th:if="${not echantillon.pause and not echantillon.erreur}">
-								<span th:unless=${echantillon.interrompu}>
+							<span th:if="${utilisateur.role ==  'ADMIN'}"> <span
+								th:if="${echantillon.pause and not echantillon.erreur}">
 
 									<td style="text-align: center"><a
-										th:href="@{/echantillon/pause/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
+										th:href="@{/echantillon/start/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
 												type="text" class="btn btn-block"
-												style="background-color: #093b71; color: white">pause</p></a>
+												style="background-color: #093b71; color: white">Start</p></a>
 								<td />
-							</span>
+							</span> <span
+								th:if="${not echantillon.pause and not echantillon.erreur}">
+									<span th:unless=${echantillon.interrompu}>
 
-							</span>
+										<td style="text-align: center"><a
+											th:href="@{/echantillon/pause/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
+													type="text" class="btn btn-block"
+													style="background-color: #093b71; color: white">pause</p></a>
+									<td />
+								</span>
 
-							<span
+							</span> <span
 								th:if="${echantillon.interrompu and not echantillon.erreur}">
 
-								<td style="text-align: center"><a th:href="@{/board}"><p
-											type="text" class="btn btn-block"
-											style="background-color: red; color: white">Stoppé!</p></a>
-							<td />
+									<td style="text-align: center"><a th:href="@{/board}"><p
+												type="text" class="btn btn-block"
+												style="background-color: red; color: white">Stoppé!</p></a>
+								<td />
+							</span> <span th:if="${echantillon.erreur}">
+
+									<td style="text-align: center"><a th:href="@{/board}"><p
+												type="text" class="btn btn-block"
+												style="background-color: red; color: white">ERREUR!</p></a>
+								<td />
 							</span>
 
-							<span
-								th:if="${echantillon.erreur}">
 
-								<td style="text-align: center"><a th:href="@{/board}"><p
-											type="text" class="btn btn-block"
-											style="background-color: red; color: white">ERREUR!</p></a>
+								<form
+									th:action="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"
+									method="post" th:object="${compteurs}">
+									<td style="text-align: center"><input type="number"
+										class="form-control" th:field="*{compteur}"
+										required="required">
 									<td />
+
+									<td style="text-align: center"><input type="submit"
+										class="btn mb-1 bouton2"
+										style="background-color: #093b71; color: white;" value="Set">
+									<td />
+								</form>
+								<td style="text-align: center"><a
+									th:href="@{/echantillon/stop/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
+											type="text" class="btn btn-block"
+											style="background-color: #093b71; color: white">Stop</p></a>
+							<td />
+
+
+
+
 							</span>
 
-
-							<form
-										th:action="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"
-										method="post" th:object="${compteurs}">
-										<td style="text-align: center"><input type="number"
-											class="form-control" th:field="*{compteur}"
-											required="required">
-								<td />
-
-								<td style="text-align: center"><input type="submit"
-											class="btn mb-1 bouton2"
-											style="background-color: #093b71; color: white;" value="Set">
-								<td />
-							</form>
-							<td style="text-align: center"><a
-								th:href="@{/echantillon/stop/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
-										type="text" class="btn btn-block"
-										style="background-color: #093b71; color: white">Stop</p></a>
-							
-							<td />
 
 
 						</tr>
@@ -155,36 +155,72 @@
 
 		<div class="row mt-3">
 			<div class="col d-flex justify-content-center">
-
-				<span th:if="${seance.etat == 'ARRET' OR seance.etat == 'PAUSE'}">
+				
+				 <span th:if="${utilisateur.role == 'ADMIN'}">
+				
+				<span
+					th:if="${seance.etat == 'ARRET' OR seance.etat == 'PAUSE'}">
 
 					<div class="form-group ">
 						<a th:href="@{/sceance/start/{id}(id=${seance.id})}"><p
 								type="text" class="btn btn-block mr-3"
-								style="background-color: #093b71; color: white; width: 350px;">Start</p></a>
+								style="background-color: #093b71; color: white; width: 250px;">Start</p></a>
 					</div>
 
-				</span> <span th:if="${seance.etat == 'MARCHE'}">
+				</span> 
+				
+				
+				
+				</span>
+				
+				
+					</span> <span th:if="${utilisateur.role == 'ADMIN'}">
+					
+					
+					<span
+					th:if="${seance.etat == 'MARCHE'}">
 					<div class="form-group ">
 						<a th:href="@{/sceance/pause/{id}(id=${seance.id})}"><p
 								type="text" class="btn btn-block mr-3"
-								style="background-color: #093b71; color: white; width: 350px;">Pause</p></a>
-					</div>
-
-				</span> </span> <span th:if="${seance.etat == 'MARCHE' OR seance.etat == 'PAUSE'}">
-
-					<div class="form-group ">
-						<a th:href="@{/sceance/stop/{id}(id=${seance.id})}"><p
-								type="text" class="btn btn-block mr-3"
-								style="background-color: #093b71; color: white; width: 350px;">Arrêter</p></a>
+								style="background-color: #093b71; color: white; width: 250px;">Pause</p></a>
 					</div>
 
 				</span>
+					
+					
+					</span>
+				
+				
+				
+				
+				 <span th:if="${utilisateur.role == 'ADMIN'}"> <span
+					th:if="${seance.etat == 'MARCHE' OR seance.etat == 'PAUSE'}">
+
+						<div class="form-group ">
+							<a th:href="@{/sceance/stop/{id}(id=${seance.id})}"><p
+									type="text" class="btn btn-block mr-3"
+									style="background-color: #093b71; color: white; width: 250px;">Arrêter</p></a>
+						</div>
+
+				</span>
+
+				</span>
+
+
 
 				<div class="form-group ">
 					<a href="/espace"><p type="text" class="btn btn-block"
-							style="background-color: #093b71; color: white; width: 350px;">Retour</p></a>
+							style="background-color: #093b71; color: white; width: 250px;">Retour</p></a>
 				</div>
+
+
+				<!--</span>  -->
+
+
+
+
+
+
 			</div>
 
 

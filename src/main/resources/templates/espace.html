@@ -93,20 +93,30 @@
 							une séance</button></a>
 				</div>
 
+
+
+
 				<div class="row d-flex justify-content-center">
 					<a th:href="@{/voir}"><button type="button"
 							class="btn mb-1 bouton2"
 							style="background-color: #093b71; color: white;">Voir
 							les séances</button></a>
 				</div>
+				<span th:if="${utilisateur.role == 'ADMIN'}">
+
+					<div class="row d-flex justify-content-center">
+						<a th:href="@{/creer}"><button type="button"
+								class="btn mb-1 bouton2"
+								style="background-color: #093b71; color: white;">Créer
+								une séance</button></a>
+					</div>
 
 
-				<div class="row d-flex justify-content-center">
-					<a th:href="@{/creer}"><button type="button"
-							class="btn mb-1 bouton2"
-							style="background-color: #093b71; color: white;">Créer
-							une séance</button></a>
-				</div>
+
+
+				</span>
+
+
 
 
 			</div>

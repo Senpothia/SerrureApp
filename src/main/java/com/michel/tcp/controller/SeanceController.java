@@ -63,7 +63,7 @@ public class SeanceController {
 			System.out.println("null? :" + seances.isEmpty());
 			if (!seances.isEmpty()) {
 
-				return "ok";
+				return "fin";
 
 			} else {
 
@@ -172,7 +172,7 @@ public class SeanceController {
 				return "listeSeances";
 			} else {
 
-				return "ok";
+				return "fin";
 			}
 
 		} else {
@@ -257,60 +257,69 @@ public class SeanceController {
 		if (testUser(utilisateur)) {
 
 			List<Seance> seances = seanceService.obtenirSeanceActive();
-			Seance seanceBase = seances.get(0);
-			List<Echantillon> echsBase = seanceBase.getEchantillons();
-			Collections.sort(echsBase);
-			System.out.println("Taille liste echs: " + echsBase.size());
+			if (!seances.isEmpty()) {
+				
+				
+				Seance seanceBase = seances.get(0);
+				List<Echantillon> echsBase = seanceBase.getEchantillons();
+				Collections.sort(echsBase);
+				System.out.println("Taille liste echs: " + echsBase.size());
 
-			if (!SerrureAppApplication.contexte.getChanged()) {
+				if (!SerrureAppApplication.contexte.getChanged()) {
 
-				System.out.println("Contexte inchangé");
-				SerrureAppApplication.contexte.factory(seanceBase);
+					System.out.println("Contexte inchangé");
+					SerrureAppApplication.contexte.factory(seanceBase);
 
-			} else {
+				} else {
 
-				System.out.println("Contexte changé");
-				Seance seanceProto = SerrureAppApplication.contexte.getSeance();
+					System.out.println("Contexte changé");
+					Seance seanceProto = SerrureAppApplication.contexte.getSeance();
 
-				seanceBase.setActif(seanceProto.getActif());
-				seanceBase.setEtat(seanceProto.getEtat());
-				seanceService.enregistrerSeance(seanceBase);
+					seanceBase.setActif(seanceProto.getActif());
+					seanceBase.setEtat(seanceProto.getEtat());
+					seanceService.enregistrerSeance(seanceBase);
 
-				Echantillon ech1Base = echsBase.get(0);
-				ech1Base.setActif(SerrureAppApplication.contexte.getEchantillon1().getActif());
-				ech1Base.setErreur(SerrureAppApplication.contexte.getEchantillon1().getErreur());
-				ech1Base.setPause(SerrureAppApplication.contexte.getEchantillon1().getPause());
-				ech1Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon1().getInterrompu());
-				ech1Base.setCompteur(SerrureAppApplication.contexte.getEchantillon1().getCompteur());
-				echantillonService.enregistrerEchantillon(ech1Base);
+					Echantillon ech1Base = echsBase.get(0);
+					ech1Base.setActif(SerrureAppApplication.contexte.getEchantillon1().getActif());
+					ech1Base.setErreur(SerrureAppApplication.contexte.getEchantillon1().getErreur());
+					ech1Base.setPause(SerrureAppApplication.contexte.getEchantillon1().getPause());
+					ech1Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon1().getInterrompu());
+					ech1Base.setCompteur(SerrureAppApplication.contexte.getEchantillon1().getCompteur());
+					echantillonService.enregistrerEchantillon(ech1Base);
 
-				Echantillon ech2Base = echsBase.get(1);
-				ech2Base.setActif(SerrureAppApplication.contexte.getEchantillon2().getActif());
-				ech2Base.setErreur(SerrureAppApplication.contexte.getEchantillon2().getErreur());
-				ech2Base.setPause(SerrureAppApplication.contexte.getEchantillon2().getPause());
-				ech2Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon2().getInterrompu());
-				ech2Base.setCompteur(SerrureAppApplication.contexte.getEchantillon2().getCompteur());
-				echantillonService.enregistrerEchantillon(ech2Base);
+					Echantillon ech2Base = echsBase.get(1);
+					ech2Base.setActif(SerrureAppApplication.contexte.getEchantillon2().getActif());
+					ech2Base.setErreur(SerrureAppApplication.contexte.getEchantillon2().getErreur());
+					ech2Base.setPause(SerrureAppApplication.contexte.getEchantillon2().getPause());
+					ech2Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon2().getInterrompu());
+					ech2Base.setCompteur(SerrureAppApplication.contexte.getEchantillon2().getCompteur());
+					echantillonService.enregistrerEchantillon(ech2Base);
 
-				Echantillon ech3Base = echsBase.get(2);
-				ech3Base.setActif(SerrureAppApplication.contexte.getEchantillon3().getActif());
-				ech3Base.setErreur(SerrureAppApplication.contexte.getEchantillon3().getErreur());
-				ech3Base.setPause(SerrureAppApplication.contexte.getEchantillon3().getPause());
-				ech3Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon3().getInterrompu());
-				ech3Base.setCompteur(SerrureAppApplication.contexte.getEchantillon3().getCompteur());
-				echantillonService.enregistrerEchantillon(ech3Base);
+					Echantillon ech3Base = echsBase.get(2);
+					ech3Base.setActif(SerrureAppApplication.contexte.getEchantillon3().getActif());
+					ech3Base.setErreur(SerrureAppApplication.contexte.getEchantillon3().getErreur());
+					ech3Base.setPause(SerrureAppApplication.contexte.getEchantillon3().getPause());
+					ech3Base.setInterrompu(SerrureAppApplication.contexte.getEchantillon3().getInterrompu());
+					ech3Base.setCompteur(SerrureAppApplication.contexte.getEchantillon3().getCompteur());
+					echantillonService.enregistrerEchantillon(ech3Base);
 
-				SerrureAppApplication.contexte.setChanged(false);
+					SerrureAppApplication.contexte.setChanged(false);
 
-			}
+				}
 
-			Compteurs compteurs = new Compteurs();
-			model.addAttribute("seance", seanceBase);
-			int valeur = 0;
-			model.addAttribute("valeur", valeur);
-			model.addAttribute("compteurs", compteurs);
+				Compteurs compteurs = new Compteurs();
+				model.addAttribute("seance", seanceBase);
+				int valeur = 0;
+				model.addAttribute("valeur", valeur);
+				model.addAttribute("compteurs", compteurs);
 
-			return Constants.BOARD;
+				return Constants.BOARD;
+				
+			}else {
+				
+				return "fin";
+				
+			}	
 		} else {
 
 			return "redirect:/connexion";

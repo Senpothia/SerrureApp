@@ -36,6 +36,7 @@ public class UserConnexion {
 		Utilisateur utilisateur = new Utilisateur();
 		utilisateur.setId(userAux.getId());
 		utilisateur.setNom(userAux.getNom());
+		utilisateur.setRole(userAux.getRole());
 		utilisateur.setPrenom(userAux.getPrenom());
 		utilisateur.setUsername(userAux.getUsername());
 		
@@ -65,6 +66,7 @@ public class UserConnexion {
 		}else {
 			
 			System.out.println("Nom de utilisateur session: " + utilisateur.getNom());
+			System.out.println("Role utilisateur: " + utilisateur.getRole());
 			model.addAttribute("utilisateur", utilisateur);
 			model.addAttribute("authentification", true);
 			
