@@ -52,15 +52,7 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<!-- 
-							<th style="text-align: center" scope="col">position</th>
-							<th style="text-align: center" scope="col">Compteur</th>
-							<th style="text-align: center" scope="col">Marche</th>
-							<th style="text-align: center" scope="col">Valeur</th>
-							<th style="text-align: center" scope="col">#</th>
-							<th style="text-align: center" scope="col">#</th>
-							<th style="text-align: center" scope="col">#</th>
- -->
+
 
 						</tr>
 					</thead>
@@ -70,13 +62,14 @@
 
 							<td style="text-align: center"><span
 								th:if="${echantillon.actif}"> <span
-									th:if="${not echantillon.erreur and not echantillon.pause}"><img class="img-fluid"
-										src="/images/vert.png" alt="" th:src="@{/images/vert.png}" /></span>
-									<span th:if="${echantillon.erreur}"><img
-										class="img-fluid" src="/imges/rouge.png" alt=""
-										th:src="@{/images/rouge.png}" /></span> <span
-									th:if="${echantillon.pause}"><img class="img-fluid"
-										src="/imges/jaune.png" alt="" th:src="@{/images/jaune.png}" /></span>
+									th:if="${not echantillon.erreur and not echantillon.pause}"><img
+										class="img-fluid" src="/images/vert.png" alt=""
+										th:src="@{/images/vert.png}" /></span> <span
+									th:if="${echantillon.erreur}"><img class="img-fluid"
+										src="/imges/rouge.png" alt="" th:src="@{/images/rouge.png}" /></span>
+									<span th:if="${echantillon.pause}"><img
+										class="img-fluid" src="/imges/jaune.png" alt=""
+										th:src="@{/images/jaune.png}" /></span>
 							</span> <span th:unless="${echantillon.actif}"><img
 									class="img-fluid" src="/imges/inactif.png" alt=""
 									th:src="@{/images/inactif.png}" /></span></td>
@@ -85,7 +78,7 @@
 
 							<td style="text-align: center" th:text="${echantillon.compteur}" />
 
-							<span th:if=${echantillon.pause}>
+							<span th:if="${echantillon.pause and not echantillon.erreur}">
 
 								<td style="text-align: center"><a
 									th:href="@{/echantillon/start/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
@@ -94,8 +87,8 @@
 							<td />
 							</span>
 
-							<span th:unless=${echantillon.pause}> <span
-								th:unless=${echantillon.interrompu}>
+							<span th:if="${not echantillon.pause and not echantillon.erreur}">
+								<span th:unless=${echantillon.interrompu}>
 
 									<td style="text-align: center"><a
 										th:href="@{/echantillon/pause/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
@@ -106,7 +99,8 @@
 
 							</span>
 
-							<span th:if=${echantillon.interrompu}>
+							<span
+								th:if="${echantillon.interrompu and not echantillon.erreur}">
 
 								<td style="text-align: center"><a th:href="@{/board}"><p
 											type="text" class="btn btn-block"
@@ -114,23 +108,34 @@
 							<td />
 							</span>
 
+							<span
+								th:if="${echantillon.erreur}">
+
+								<td style="text-align: center"><a th:href="@{/board}"><p
+											type="text" class="btn btn-block"
+											style="background-color: red; color: white">ERREUR!</p></a>
+									<td />
+							</span>
+
 
 							<form
-								th:action="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"
-								method="post" th:object="${compteurs}">
-								<td style="text-align: center"><input type="number"
-									class="form-control" th:field="*{compteur}" required="required">
+										th:action="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"
+										method="post" th:object="${compteurs}">
+										<td style="text-align: center"><input type="number"
+											class="form-control" th:field="*{compteur}"
+											required="required">
 								<td />
 
 								<td style="text-align: center"><input type="submit"
-									class="btn mb-1 bouton2"
-									style="background-color: #093b71; color: white;" value="Set">
+											class="btn mb-1 bouton2"
+											style="background-color: #093b71; color: white;" value="Set">
 								<td />
 							</form>
 							<td style="text-align: center"><a
 								th:href="@{/echantillon/stop/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
 										type="text" class="btn btn-block"
 										style="background-color: #093b71; color: white">Stop</p></a>
+							
 							<td />
 
 
@@ -209,7 +214,7 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 		crossorigin="anonymous"></script>
-<!-- 
+	<!-- 
 	<script>
 		setTimeout("location.reload(true);", 10000);
 	</script>

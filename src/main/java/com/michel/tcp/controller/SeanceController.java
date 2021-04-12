@@ -194,38 +194,7 @@ public class SeanceController {
 			List<Echantillon> echsBase = seanceBase.getEchantillons();
 			System.out.println("Taille liste echs: " + echsBase.size());
 
-			/*
-			 * Echantillon ech1Base = echsBase.get(0); Echantillon e1Proto =
-			 * SerrureAppApplication.echantillons.get(0);
-			 * ech1Base.setActif(e1Proto.getActif());
-			 * ech1Base.setCompteur(e1Proto.getCompteur());
-			 * ech1Base.setErreur(e1Proto.getErreur());
-			 * ech1Base.setInterrompu(e1Proto.getInterrompu());
-			 * ech1Base.setPause(e1Proto.getPause());
-			 * 
-			 * Echantillon ech2Base = echsBase.get(1); Echantillon e2Proto =
-			 * SerrureAppApplication.echantillons.get(1);
-			 * ech2Base.setActif(e2Proto.getActif());
-			 * ech2Base.setCompteur(e2Proto.getCompteur());
-			 * ech2Base.setErreur(e2Proto.getErreur());
-			 * ech2Base.setInterrompu(e2Proto.getInterrompu());
-			 * ech2Base.setPause(e2Proto.getPause());
-			 * 
-			 * Echantillon ech3Base = echsBase.get(2); Echantillon e3Proto =
-			 * SerrureAppApplication.echantillons.get(2);
-			 * ech3Base.setActif(e3Proto.getActif());
-			 * ech3Base.setCompteur(e3Proto.getCompteur());
-			 * ech3Base.setErreur(e3Proto.getErreur());
-			 * ech3Base.setInterrompu(e3Proto.getInterrompu());
-			 * ech3Base.setPause(e3Proto.getPause());
-			 * 
-			 * List<Echantillon> EchsNew = new ArrayList<Echantillon>();
-			 * EchsNew.add(ech1Base); EchsNew.add(ech2Base); EchsNew.add(ech3Base);
-			 * 
-			 * seanceBase.setActif(SerrureAppApplication.seance.getActif());
-			 * seanceBase.setEtat(SerrureAppApplication.seance.getEtat());
-			 * seanceBase.setEchantillons(EchsNew);
-			 */
+			
 			model.addAttribute("seance", seanceBase);
 			int valeur = 0;
 			model.addAttribute("valeur", valeur);
