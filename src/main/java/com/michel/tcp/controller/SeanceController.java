@@ -63,7 +63,8 @@ public class SeanceController {
 			System.out.println("null? :" + seances.isEmpty());
 			if (!seances.isEmpty()) {
 
-				return "fin";
+				
+				return "seanceEnCours";
 
 			} else {
 
