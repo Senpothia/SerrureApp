@@ -110,47 +110,42 @@
 												type="text" class="btn btn-block"
 												style="background-color: red; color: white">ERREUR!</p></a>
 								<td />
+							</span> <span th:unless="${echantillon.erreur}">
+
+
+									<form
+										th:action="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"
+										method="post" th:object="${compteurs}">
+										<td style="text-align: center"><input type="number"
+											class="form-control" th:field="*{compteur}"
+											required="required">
+										<td />
+
+										<td style="text-align: center"><input type="submit"
+											class="btn mb-1 bouton2"
+											style="background-color: #093b71; color: white;" value="Set">
+										<td />
+									</form>
+
+							</span> <span th:if="${echantillon.erreur}">
+
+
+									<form th:action="@{/echantillon/set/inhibition}" method="post"
+										th:object="${compteurs}">
+										<td style="text-align: center"><input type="number"
+											class="form-control" th:field="*{compteur}"
+											required="required">
+										<td />
+
+										<td style="text-align: center"><input type="submit"
+											class="btn mb-1 bouton2"
+											style="background-color: #093b71; color: white;" value="Set">
+										<td />
+									</form>
+
 							</span>
 
-					<span th:if="${echantillon.actif}">
-					
-					
-						<form
-									th:action="@{/echantillon/set/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"
-									method="post" th:object="${compteurs}">
-									<td style="text-align: center"><input type="number"
-										class="form-control" th:field="*{compteur}"
-										required="required">
-									<td />
 
-									<td style="text-align: center"><input type="submit"
-										class="btn mb-1 bouton2"
-										style="background-color: #093b71; color: white;" value="Set">
-									<td />
-								</form>
-					
-					</span>
-							
-								<span th:unless="${echantillon.actif}">
-					
-					
-						<form
-									th:action="@{/echantillon/set/inhibition}"
-									method="post" th:object="${compteurs}">
-									<td style="text-align: center"><input type="number"
-										class="form-control" th:field="*{compteur}"
-										required="required">
-									<td />
-
-									<td style="text-align: center"><input type="submit"
-										class="btn mb-1 bouton2"
-										style="background-color: #093b71; color: white;" value="Set">
-									<td />
-								</form>
-					
-					</span>
-							
-								
 								<td style="text-align: center"><a
 									th:href="@{/echantillon/stop/{id}/{num}(id=${echantillon.id}, num=${iStat.count})}"><p
 											type="text" class="btn btn-block"
@@ -180,45 +175,32 @@
 
 		<div class="row mt-3">
 			<div class="col d-flex justify-content-center">
-				
-				 <span th:if="${utilisateur.role == 'ADMIN'}">
-				
-				<span
+
+				<span th:if="${utilisateur.role == 'ADMIN'}"> <span
 					th:if="${seance.etat == 'ARRET' OR seance.etat == 'PAUSE'}">
 
-					<div class="form-group ">
-						<a th:href="@{/sceance/start/{id}(id=${seance.id})}"><p
-								type="text" class="btn btn-block mr-3"
-								style="background-color: #093b71; color: white; width: 250px;">Start</p></a>
-					</div>
+						<div class="form-group ">
+							<a th:href="@{/sceance/start/{id}(id=${seance.id})}"><p
+									type="text" class="btn btn-block mr-3"
+									style="background-color: #093b71; color: white; width: 250px;">Start</p></a>
+						</div>
 
-				</span> 
-				
-				
-				
 				</span>
-				
-				
-					</span> <span th:if="${utilisateur.role == 'ADMIN'}">
-					
-					
-					<span
+
+
+
+				</span> </span> <span th:if="${utilisateur.role == 'ADMIN'}"> <span
 					th:if="${seance.etat == 'MARCHE'}">
-					<div class="form-group ">
-						<a th:href="@{/sceance/pause/{id}(id=${seance.id})}"><p
-								type="text" class="btn btn-block mr-3"
-								style="background-color: #093b71; color: white; width: 250px;">Pause</p></a>
-					</div>
+						<div class="form-group ">
+							<a th:href="@{/sceance/pause/{id}(id=${seance.id})}"><p
+									type="text" class="btn btn-block mr-3"
+									style="background-color: #093b71; color: white; width: 250px;">Pause</p></a>
+						</div>
 
 				</span>
-					
-					
-					</span>
-				
-				
-				
-				
-				 <span th:if="${utilisateur.role == 'ADMIN'}"> <span
+
+
+				</span> <span th:if="${utilisateur.role == 'ADMIN'}"> <span
 					th:if="${seance.etat == 'MARCHE' OR seance.etat == 'PAUSE'}">
 
 						<div class="form-group ">
