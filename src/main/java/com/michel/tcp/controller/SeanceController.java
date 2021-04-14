@@ -63,7 +63,6 @@ public class SeanceController {
 			System.out.println("null? :" + seances.isEmpty());
 			if (!seances.isEmpty()) {
 
-				
 				return "seanceEnCours";
 
 			} else {
@@ -195,7 +194,6 @@ public class SeanceController {
 			List<Echantillon> echsBase = seanceBase.getEchantillons();
 			System.out.println("Taille liste echs: " + echsBase.size());
 
-			
 			model.addAttribute("seance", seanceBase);
 			int valeur = 0;
 			model.addAttribute("valeur", valeur);
@@ -259,8 +257,7 @@ public class SeanceController {
 
 			List<Seance> seances = seanceService.obtenirSeanceActive();
 			if (!seances.isEmpty()) {
-				
-				
+
 				Seance seanceBase = seances.get(0);
 				List<Echantillon> echsBase = seanceBase.getEchantillons();
 				Collections.sort(echsBase);
@@ -315,12 +312,12 @@ public class SeanceController {
 				model.addAttribute("compteurs", compteurs);
 
 				return Constants.BOARD;
-				
-			}else {
-				
+
+			} else {
+
 				return "fin";
-				
-			}	
+
+			}
 		} else {
 
 			return "redirect:/connexion";
@@ -391,7 +388,7 @@ public class SeanceController {
 	}
 
 	@GetMapping("/sceance/start/{id}")
-	public String arreterSeance(@PathVariable(name = "id") Integer id, Model model, HttpSession session) {
+	public String startSeance(@PathVariable(name = "id") Integer id, Model model, HttpSession session) {
 
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
 
@@ -504,16 +501,16 @@ public class SeanceController {
 			Boolean interrompus = SerrureAppApplication.contexte.getEchantillon1().getInterrompu()
 					&& SerrureAppApplication.contexte.getEchantillon2().getInterrompu()
 					&& SerrureAppApplication.contexte.getEchantillon3().getInterrompu();
-			
-			if(!interrompus) {
-				
+
+			if (!interrompus) {
+
 				SerrureAppApplication.commande.setMessage("@SERV:>STOP>" + num + ">#");
 				SerrureAppApplication.commande.setChanged(true);
 				SerrureAppApplication.contexte.setChanged(true);
 				return "redirect:/board";
-				
-			}else {
-				
+
+			} else {
+
 				Seance SeanceProto = SerrureAppApplication.contexte.getSeance();
 				seanceProto.setActif(false);
 				seanceProto.setEtat(Constants.ARRET);
@@ -529,9 +526,6 @@ public class SeanceController {
 				SerrureAppApplication.contexte.setChanged(true);
 				return "seance";
 			}
-
-
-			
 
 		} else {
 
@@ -606,14 +600,13 @@ public class SeanceController {
 		}
 
 	}
-	
+
 	@PostMapping("/echantillon/set/inhibition")
-	
+
 	public String noSetCompteur(Model model, HttpSession session) {
-		
-		
+
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
-		
+
 		if (testUser(utilisateur)) {
 
 			return "redirect:/board";
@@ -651,7 +644,10 @@ public class SeanceController {
 				+ String.valueOf(echantillons.get(2).getActif()) + ">E3>"
 				+ String.valueOf(echantillons.get(2).getErreur()) + ">P3>"
 				+ String.valueOf(echantillons.get(2).getPause()) + ">I3>"
-				+ String.valueOf(echantillons.get(2).getInterrompu()) + ">#";
+				+ String.valueOf(echantillons.get(2).getInterrompu()) + ">T1>" 
+				+ echantillons.get(0).getType() + ">T2>"
+				+ echantillons.get(1).getType() + ">T3>" 
+				+ echantillons.get(2).getType() + ">#";
 
 		System.out.println("Commande sendOrder:" + commande);
 		return commande;
