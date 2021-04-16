@@ -80,7 +80,7 @@
 
 							<td style="text-align: center" th:text="${echantillon.compteur}" />
 
-							<span th:if="${utilisateur.role ==  'ADMIN'}"> <span
+							<span th:if="${utilisateur.role ==  'ADMIN' OR utilisateur.role =='LAB'}"> <span
 								th:if="${echantillon.pause and not echantillon.erreur}">
 
 									<td style="text-align: center"><a
@@ -178,7 +178,7 @@
 		<div class="row mt-3">
 			<div class="col d-flex justify-content-center">
 
-				<span th:if="${utilisateur.role == 'ADMIN'}"> <span
+				<span th:if="${utilisateur.role == 'ADMIN' OR utilisateur.role == 'LAB'}"> <span
 					th:if="${seance.etat == 'ARRET' OR seance.etat == 'PAUSE'}">
 
 						<div class="form-group ">
@@ -191,7 +191,7 @@
 
 
 
-				</span> </span> <span th:if="${utilisateur.role == 'ADMIN'}"> <span
+				</span> </span> <span th:if="${utilisateur.role == 'ADMIN' OR utilisateur.role =='LAB'}"> <span
 					th:if="${seance.etat == 'MARCHE'}">
 						<div class="form-group ">
 							<a th:href="@{/sceance/pause/{id}(id=${seance.id})}"><p
@@ -202,7 +202,7 @@
 				</span>
 
 
-				</span> <span th:if="${utilisateur.role == 'ADMIN'}"> <span
+				</span> <span th:if="${utilisateur.role == 'ADMIN' OR utilisateur.role =='LAB'}"> <span
 					th:if="${seance.etat == 'MARCHE' OR seance.etat == 'PAUSE'}">
 
 						<div class="form-group ">

@@ -102,7 +102,7 @@
 							style="background-color: #093b71; color: white;">Voir
 							les séances</button></a>
 				</div>
-				<span th:if="${utilisateur.role == 'ADMIN'}">
+				<span th:if="${utilisateur.role == 'ADMIN' OR utilisateur.role =='LAB'}">
 
 					<div class="row d-flex justify-content-center">
 						<a th:href="@{/creer}"><button type="button"
@@ -114,7 +114,7 @@
 
 
 
-				</span> <span th:if="${utilisateur.role == 'ADMIN'}">
+				</span> <span th:if="${utilisateur.role == 'LAB'}">
 
 					<div class="row d-flex justify-content-center">
 						<a th:href="@{/reset}"><button type="button"

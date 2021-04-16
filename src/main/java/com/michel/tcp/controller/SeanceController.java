@@ -580,6 +580,8 @@ public class SeanceController {
 			SerrureAppApplication.contexte.getSeance().setEtat("ARRET");
 			List<Echantillon> echantillons = SerrureAppApplication.contexte.getSeance().getEchantillons();
 			System.out.println("Taille liste echs (reset): " + echantillons.size());
+		
+			
 			for(int i=0; i<3; i++) {
 				
 				
