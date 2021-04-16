@@ -163,7 +163,7 @@ public class Home {
 			
 		}else {
 			
-			return "redirect:/labplan/compte/modifier?error=true";
+			return "redirect:/compte/modifier?error=true";
 		}
 		
 	}
