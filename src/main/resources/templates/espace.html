@@ -114,9 +114,18 @@
 
 
 
+				</span> <span th:if="${utilisateur.role == 'ADMIN'}">
+
+					<div class="row d-flex justify-content-center">
+						<a th:href="@{/reset}"><button type="button"
+								class="btn mb-1 bouton2"
+								style="background-color: red; color: white;">Reset</button></a>
+					</div>
+
+
+
+
 				</span>
-
-
 
 
 			</div>

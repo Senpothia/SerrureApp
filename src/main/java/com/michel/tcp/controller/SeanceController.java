@@ -569,6 +569,39 @@ public class SeanceController {
 
 	}
 
+	@GetMapping("/reset")
+	public String reset(Model model, HttpSession session) {
+
+		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
+
+		if (testUser(utilisateur)) {
+			
+			SerrureAppApplication.contexte.getSeance().setActif(true);
+			SerrureAppApplication.contexte.getSeance().setEtat("ARRET");
+			List<Echantillon> echantillons = SerrureAppApplication.contexte.getSeance().getEchantillons();
+			System.out.println("Taille liste echs (reset): " + echantillons.size());
+			for(int i=0; i<3; i++) {
+				
+				
+				echantillons.get(i).setErreur(false);
+				echantillons.get(i).setPause(false);
+				echantillons.get(i).setInterrompu(false);
+				echantillons.get(i).setActif(true);
+				
+			}
+			
+			SerrureAppApplication.contexte.setChanged(true);
+
+			return "redirect:/espace";
+
+		} else {
+
+			return "redirect:/connexion";
+
+		}
+
+	}
+
 	@PostMapping("/echantillon/set/{id}/{num}")
 	public String setCompteurEchantillon(@PathVariable(name = "id") Integer id, @PathVariable(name = "num") Integer num,
 			Model model, HttpSession session, Compteurs compteurs) {
@@ -644,10 +677,8 @@ public class SeanceController {
 				+ String.valueOf(echantillons.get(2).getActif()) + ">E3>"
 				+ String.valueOf(echantillons.get(2).getErreur()) + ">P3>"
 				+ String.valueOf(echantillons.get(2).getPause()) + ">I3>"
-				+ String.valueOf(echantillons.get(2).getInterrompu()) + ">T1>" 
-				+ echantillons.get(0).getType() + ">T2>"
-				+ echantillons.get(1).getType() + ">T3>" 
-				+ echantillons.get(2).getType() + ">#";
+				+ String.valueOf(echantillons.get(2).getInterrompu()) + ">T1>" + echantillons.get(0).getType() + ">T2>"
+				+ echantillons.get(1).getType() + ">T3>" + echantillons.get(2).getType() + ">#";
 
 		System.out.println("Commande sendOrder:" + commande);
 		return commande;
