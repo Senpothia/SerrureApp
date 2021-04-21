@@ -79,7 +79,7 @@ public class Echantillon implements Comparable<Echantillon>{
 		this.position = position;
 		this.actif = actif;
 		this.erreur = false;
-		this.pause = true;
+		this.pause = false;
 		this.interrompu = false;
 		this.compteur = compteur;
 

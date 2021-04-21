@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.michel.tcp.service.user.UserConnexion;
+
+
 import com.michel.tcp.SerrureAppApplication;
 import com.michel.tcp.constants.Constants;
 import com.michel.tcp.model.Compteurs;
@@ -25,6 +28,8 @@ import com.michel.tcp.model.auxiliaire.FormSeance;
 import com.michel.tcp.service.jpa.EchantillonService;
 import com.michel.tcp.service.jpa.SeanceService;
 import com.michel.tcp.service.user.UserConnexion;
+
+
 
 @Controller
 public class SeanceController {
@@ -70,6 +75,7 @@ public class SeanceController {
 				String token = (String) session.getAttribute("TOKEN");
 				token = "Bearer " + token;
 				model.addAttribute("formSeance", new FormSeance());
+				
 
 				return "creer";
 			}
@@ -90,7 +96,7 @@ public class SeanceController {
 
 			String token = (String) session.getAttribute("TOKEN");
 			token = "Bearer " + token;
-			model.addAttribute("formSeance", new FormSeance());
+			//model.addAttribute("formSeance", new FormSeance());
 			Seance seance = new Seance();
 			seance.setActif(true);
 			seance.setEtat(Constants.ARRET);
@@ -102,6 +108,7 @@ public class SeanceController {
 			Integer id = seance.getId();
 			System.out.println("Id scéance: " + id);
 			Seance s = seanceService.obtenirSeanceParId(id);
+			
 
 			System.out.println(s.toString());
 
@@ -135,7 +142,10 @@ public class SeanceController {
 			int valeur = 0;
 			model.addAttribute("valeur", valeur);
 			model.addAttribute("compteurs", new Compteurs());
+			SerrureAppApplication.contexte.factory(s);   // Ajouter le 19-04
 			SerrureAppApplication.contexte.setChanged(true);
+		
+			
 			return Constants.BOARD;
 
 		} else {
@@ -143,6 +153,7 @@ public class SeanceController {
 			return "redirect:/connexion";
 		}
 
+		
 	}
 
 	@GetMapping("/suivre")
