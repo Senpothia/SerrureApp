@@ -384,7 +384,8 @@ public class SeanceController {
 			echantillonService.enregistrerEchantillon(ech3Base);
 
 			List<Seance> seanceInactives = new ArrayList<Seance>();
-			seanceInactives = seanceService.obtenirSeancesInactives();
+			//seanceInactives = seanceService.obtenirSeancesInactives();
+			seanceInactives = seanceService.obtenirSeancesOrdonnees();
 			System.out.println("Taille liste seance inactives:" + seanceInactives.size());
 			model.addAttribute("actif", false);
 			model.addAttribute("seances", seanceInactives);
