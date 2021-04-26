@@ -125,7 +125,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="echantillon, iStat: ${seance.echantillons}">
+						<tr th:each="echantillon, iStat: ${echantillons}">
 							<th scope="row"><span th:text="${iStat.count}"></span></th>
 
 							<td style="text-align: center"><span
@@ -141,7 +141,8 @@
 									th:src="@{/images/inactif.png}" /></span></td>
 
 							<td />
-
+							
+								<td style="text-align: center" th:text="${echantillon.type}" />
 							<td style="text-align: center" th:text="${echantillon.compteur}" />
 
 

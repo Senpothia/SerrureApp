@@ -1,6 +1,7 @@
 package com.michel.tcp.model.auxiliaire;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 
 import com.michel.tcp.model.Echantillon;
@@ -49,9 +50,10 @@ public class FormSeance {
 		
 		super();
 		this.id = seance.getId();
-		Description = seance.getDescription();
+		this.Description = seance.getDescription();
 		this.date = seance.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		List<Echantillon> echantillons = seance.getEchantillons();
+		Collections.sort(echantillons);
 		this.type1 = echantillons.get(0).getType();
 		this.type2 = echantillons.get(1).getType();
 		this.type3 = echantillons.get(2).getType();

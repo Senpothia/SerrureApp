@@ -248,8 +248,11 @@ public class SeanceController {
 
 		if (testUser(utilisateur)) {
 			Seance seance = seanceService.obtenirSeanceParId(id);
-			FormSeance formSeance = new FormSeance(seance);
+			List<Echantillon> echs = seance.getEchantillons();
+			Collections.sort(echs);
+			//FormSeance formSeance = new FormSeance(seance);
 			model.addAttribute("seance", seance);
+			model.addAttribute("echantillons", echs);
 			model.addAttribute("fin", false);
 			return "seance";
 
