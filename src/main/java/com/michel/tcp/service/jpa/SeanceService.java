@@ -42,4 +42,10 @@ public class SeanceService implements ISeanceService {
 		
 	}
 
+	public List<Seance> obtenirSeancesOrdonnees() {
+		
+		List<Seance> seancesInactives = seanceRepo.findByActifOrderByIdDesc(false);
+		return seancesInactives;
+	}
+
 }
