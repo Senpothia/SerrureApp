@@ -678,6 +678,22 @@ public class SeanceController {
 		Seance seance = SerrureAppApplication.contexte.getSeance();
 		etat = seance.getEtat();
 		actif = seance.getActif();
+		
+		String [] procedures = {"", "", ""};
+		
+		for (int i=0; i<seance.getEchantillons().size(); i++) {
+			
+			if (seance.getEchantillons().get(i).getType().equals("DX20043")) {
+				
+				procedures[i] = "DX200I";
+				
+			}else {
+				
+				procedures[i] = seance.getEchantillons().get(i).getType();
+			}
+			
+			
+		}
 
 		List<Echantillon> echantillons = seance.getEchantillons();
 		Collections.sort(echantillons);
@@ -695,8 +711,8 @@ public class SeanceController {
 				+ String.valueOf(echantillons.get(2).getActif()) + ">E3>"
 				+ String.valueOf(echantillons.get(2).getErreur()) + ">P3>"
 				+ String.valueOf(echantillons.get(2).getPause()) + ">I3>"
-				+ String.valueOf(echantillons.get(2).getInterrompu()) + ">T1>" + echantillons.get(0).getType() + ">T2>"
-				+ echantillons.get(1).getType() + ">T3>" + echantillons.get(2).getType() + ">#";
+				+ String.valueOf(echantillons.get(2).getInterrompu()) + ">T1>" + procedures[0] + ">T2>"
+				+ procedures[1] + ">T3>" + procedures[2] + ">#";
 
 		System.out.println("Commande sendOrder:" + commande);
 		return commande;
