@@ -20,18 +20,11 @@ public class UserConnexion {
 	
 	public Utilisateur identifierUtilisateur(Login login, HttpSession session) {
 		
-		System.out.println("Demande d'identification");
-		System.out.println("Username: " + login.getUser());
-		System.out.println("password: " + login.getPassword());
-		
 		try {
 		ResponseEntity<UtilisateurAux> userBody = userCompte.generate(login);
 		HttpStatus code = userBody.getStatusCode();
-		System.out.println("code status: " + code);
-		UtilisateurAux userAux = userBody.getBody();
-		System.out.println("Token: " + userAux.getToken() );
-		System.out.println("Nom de l'utilisateur récupéré: " + userAux.getNom());
 		
+		UtilisateurAux userAux = userBody.getBody();
 		
 		Utilisateur utilisateur = new Utilisateur();
 		utilisateur.setId(userAux.getId());
@@ -49,7 +42,7 @@ public class UserConnexion {
 		
 		} catch (Exception e) {
 			
-			System.out.println("non autorisé");
+			
 			return null;
 		}
 			
@@ -60,13 +53,10 @@ public class UserConnexion {
 		Utilisateur utilisateur = (Utilisateur) session.getAttribute("USER");
 		if (utilisateur == null) {
 			
-			System.out.println("aucun utilisateur");
 			model.addAttribute("authentification", false);
 			
 		}else {
 			
-			System.out.println("Nom de utilisateur session: " + utilisateur.getNom());
-			System.out.println("Role utilisateur: " + utilisateur.getRole());
 			model.addAttribute("utilisateur", utilisateur);
 			model.addAttribute("authentification", true);
 			

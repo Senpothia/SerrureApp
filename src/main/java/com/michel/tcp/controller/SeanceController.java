@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.michel.tcp.service.user.UserConnexion;
 
-
 import com.michel.tcp.SerrureAppApplication;
 import com.michel.tcp.constants.Constants;
 import com.michel.tcp.model.Compteurs;
@@ -28,8 +27,6 @@ import com.michel.tcp.model.auxiliaire.FormSeance;
 import com.michel.tcp.service.jpa.EchantillonService;
 import com.michel.tcp.service.jpa.SeanceService;
 import com.michel.tcp.service.user.UserConnexion;
-
-
 
 @Controller
 public class SeanceController {
@@ -64,8 +61,7 @@ public class SeanceController {
 		if (testUser(utilisateur)) {
 
 			List<Seance> seances = seanceService.obtenirSeanceActive();
-			System.out.println("taille liste actives: " + seances.size());
-			System.out.println("null? :" + seances.isEmpty());
+			
 			if (!seances.isEmpty()) {
 
 				return "seanceEnCours";
@@ -75,7 +71,6 @@ public class SeanceController {
 				String token = (String) session.getAttribute("TOKEN");
 				token = "Bearer " + token;
 				model.addAttribute("formSeance", new FormSeance());
-				
 
 				return "creer";
 			}
@@ -96,7 +91,7 @@ public class SeanceController {
 
 			String token = (String) session.getAttribute("TOKEN");
 			token = "Bearer " + token;
-			//model.addAttribute("formSeance", new FormSeance());
+			// model.addAttribute("formSeance", new FormSeance());
 			Seance seance = new Seance();
 			seance.setActif(true);
 			seance.setEtat(Constants.ARRET);
@@ -106,11 +101,8 @@ public class SeanceController {
 
 			seanceService.enregistrerSeance(seance);
 			Integer id = seance.getId();
-			System.out.println("Id scéance: " + id);
-			Seance s = seanceService.obtenirSeanceParId(id);
-			
 
-			System.out.println(s.toString());
+			Seance s = seanceService.obtenirSeanceParId(id);
 
 			Echantillon echantillon1 = new Echantillon(formSeance, seance, 1);
 			Echantillon echantillon2 = new Echantillon(formSeance, seance, 2);
@@ -120,13 +112,10 @@ public class SeanceController {
 			echantillon2.setSeance(s);
 			echantillon3.setSeance(s);
 
-			System.out.println(echantillon1.toString());
-
 			echantillonService.enregistrerEchantillon(echantillon1);
 			echantillonService.enregistrerEchantillon(echantillon2);
 			echantillonService.enregistrerEchantillon(echantillon3);
 
-			System.out.println(s.toString());
 			List<Echantillon> echantillons = new ArrayList<Echantillon>();
 			echantillons.add(echantillon1);
 			echantillons.add(echantillon2);
@@ -137,15 +126,14 @@ public class SeanceController {
 
 			Seance s1 = seanceService.obtenirSeanceParId(id);
 			List<Echantillon> echs = s1.getEchantillons();
-			System.out.println("Taille liste echs: " + echs.size());
+
 			model.addAttribute("seance", s1);
 			int valeur = 0;
 			model.addAttribute("valeur", valeur);
 			model.addAttribute("compteurs", new Compteurs());
-			SerrureAppApplication.contexte.factory(s);   // Ajouter le 19-04
+			SerrureAppApplication.contexte.factory(s); // Ajouter le 19-04
 			SerrureAppApplication.contexte.setChanged(true);
-		
-			
+
 			return Constants.BOARD;
 
 		} else {
@@ -153,7 +141,6 @@ public class SeanceController {
 			return "redirect:/connexion";
 		}
 
-		
 	}
 
 	@GetMapping("/suivre")
@@ -166,14 +153,12 @@ public class SeanceController {
 			List<Seance> seances = seanceService.obtenirSeanceActive();
 			if (!seances.isEmpty()) {
 
-				System.out.println("id de la seance active: " + seances.get(0).getId());
-
 				model.addAttribute("actif", true);
 				List<FormSeance> seancesForm = new ArrayList<FormSeance>();
 				for (Seance s : seances) {
 
 					FormSeance fs = new FormSeance(s);
-					System.out.println("****date: " + fs.getDate());
+
 					seancesForm.add(fs);
 				}
 				int id = seancesForm.get(0).getId();
@@ -203,7 +188,6 @@ public class SeanceController {
 
 			Seance seanceBase = seanceService.obtenirSeanceParId(id);
 			List<Echantillon> echsBase = seanceBase.getEchantillons();
-			System.out.println("Taille liste echs: " + echsBase.size());
 
 			model.addAttribute("seance", seanceBase);
 			int valeur = 0;
@@ -226,9 +210,8 @@ public class SeanceController {
 		if (testUser(utilisateur)) {
 
 			List<Seance> seanceInactives = new ArrayList<Seance>();
-			//seanceInactives = seanceService.obtenirSeancesInactives();
+			// seanceInactives = seanceService.obtenirSeancesInactives();
 			seanceInactives = seanceService.obtenirSeancesOrdonnees();
-			System.out.println("Taille liste seance inactives:" + seanceInactives.size());
 
 			model.addAttribute("actif", false);
 			model.addAttribute("seances", seanceInactives);
@@ -250,7 +233,7 @@ public class SeanceController {
 			Seance seance = seanceService.obtenirSeanceParId(id);
 			List<Echantillon> echs = seance.getEchantillons();
 			Collections.sort(echs);
-			//FormSeance formSeance = new FormSeance(seance);
+			// FormSeance formSeance = new FormSeance(seance);
 			model.addAttribute("seance", seance);
 			model.addAttribute("echantillons", echs);
 			model.addAttribute("fin", false);
@@ -276,16 +259,13 @@ public class SeanceController {
 				Seance seanceBase = seances.get(0);
 				List<Echantillon> echsBase = seanceBase.getEchantillons();
 				Collections.sort(echsBase);
-				System.out.println("Taille liste echs: " + echsBase.size());
 
 				if (!SerrureAppApplication.contexte.getChanged()) {
 
-					System.out.println("Contexte inchangé");
 					SerrureAppApplication.contexte.factory(seanceBase);
 
 				} else {
 
-					System.out.println("Contexte changé");
 					Seance seanceProto = SerrureAppApplication.contexte.getSeance();
 
 					seanceBase.setActif(seanceProto.getActif());
@@ -384,9 +364,9 @@ public class SeanceController {
 			echantillonService.enregistrerEchantillon(ech3Base);
 
 			List<Seance> seanceInactives = new ArrayList<Seance>();
-			//seanceInactives = seanceService.obtenirSeancesInactives();
+			// seanceInactives = seanceService.obtenirSeancesInactives();
 			seanceInactives = seanceService.obtenirSeancesOrdonnees();
-			System.out.println("Taille liste seance inactives:" + seanceInactives.size());
+
 			model.addAttribute("actif", false);
 			model.addAttribute("seances", seanceInactives);
 
@@ -591,23 +571,20 @@ public class SeanceController {
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
 
 		if (testUser(utilisateur)) {
-			
+
 			SerrureAppApplication.contexte.getSeance().setActif(true);
 			SerrureAppApplication.contexte.getSeance().setEtat("ARRET");
 			List<Echantillon> echantillons = SerrureAppApplication.contexte.getSeance().getEchantillons();
-			System.out.println("Taille liste echs (reset): " + echantillons.size());
-		
-			
-			for(int i=0; i<3; i++) {
-				
-				
+
+			for (int i = 0; i < 3; i++) {
+
 				echantillons.get(i).setErreur(false);
 				echantillons.get(i).setPause(false);
 				echantillons.get(i).setInterrompu(false);
 				echantillons.get(i).setActif(true);
-				
+
 			}
-			
+
 			SerrureAppApplication.contexte.setChanged(true);
 
 			return "redirect:/espace";
@@ -625,7 +602,7 @@ public class SeanceController {
 			Model model, HttpSession session, Compteurs compteurs) {
 
 		Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
-		System.out.println("Valeur compteur: " + compteurs.getCompteur());
+
 		if (testUser(utilisateur)) {
 
 			Echantillon echBase = echantillonService.obtenirEchantillonParId(id);
@@ -678,21 +655,20 @@ public class SeanceController {
 		Seance seance = SerrureAppApplication.contexte.getSeance();
 		etat = seance.getEtat();
 		actif = seance.getActif();
-		
-		String [] procedures = {"", "", ""};
-		
-		for (int i=0; i<seance.getEchantillons().size(); i++) {
-			
+
+		String[] procedures = { "", "", "" };
+
+		for (int i = 0; i < seance.getEchantillons().size(); i++) {
+
 			if (seance.getEchantillons().get(i).getType().equals("DX20043")) {
-				
+
 				procedures[i] = "DX200I";
-				
-			}else {
-				
+
+			} else {
+
 				procedures[i] = seance.getEchantillons().get(i).getType();
 			}
-			
-			
+
 		}
 
 		List<Echantillon> echantillons = seance.getEchantillons();
@@ -711,24 +687,10 @@ public class SeanceController {
 				+ String.valueOf(echantillons.get(2).getActif()) + ">E3>"
 				+ String.valueOf(echantillons.get(2).getErreur()) + ">P3>"
 				+ String.valueOf(echantillons.get(2).getPause()) + ">I3>"
-				+ String.valueOf(echantillons.get(2).getInterrompu()) + ">T1>" + procedures[0] + ">T2>"
-				+ procedures[1] + ">T3>" + procedures[2] + ">#";
+				+ String.valueOf(echantillons.get(2).getInterrompu()) + ">T1>" + procedures[0] + ">T2>" + procedures[1]
+				+ ">T3>" + procedures[2] + ">#";
 
-		System.out.println("Commande sendOrder:" + commande);
 		return commande;
 	}
-
-	/*
-	 * Utilisateur utilisateur = userConnexion.obtenirUtilisateur(session, model);
-	 * 
-	 * if (testUser(utilisateur)) {
-	 * 
-	 * 
-	 * } else {
-	 * 
-	 * return "redirect:/connexion";
-	 * 
-	 * }
-	 */
 
 }

@@ -141,12 +141,9 @@ public class Home {
 		utilisateurAux.setPrenom(formCompte.getPrenom());
 		utilisateurAux.setNom(formCompte.getNom());
 		
-		System.out.println("password récupéré: "+ formCompte.getPassword());
-		
 		if (!formCompte.getPassword().equals("")) {
 			
 			utilisateurAux.setToken(formCompte.getPassword());
-			System.out.println("chaine non vide!");
 			utilisateurAux.setUsername(formCompte.getUsername());
 			utilisateurAux.setRole("USER");
 			

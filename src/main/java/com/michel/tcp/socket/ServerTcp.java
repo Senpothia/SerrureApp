@@ -60,25 +60,12 @@ public class ServerTcp {
 
 						// Une fois reçu, on traite l'echange avec ce nouveau client dans un nouveau
 						// thread
-						System.out.println("INFO$: Une nouvelle connexion d'un client reçue!");
 						
 						  Thread newClientThread = new Thread(new ReaderProcessor(clientSocket));
 						  newClientThread.start(); 
 						  Thread newClientThread2 = new Thread(new
 						  WriterProcessor(clientSocket)); newClientThread2.start();
 						 
-						/*
-						ReaderProcessor reader = applicationContext.getBean(ReaderProcessor.class);
-						reader.setMySocket(clientSocket);
-						WriterProcessor writer = applicationContext.getBean(WriterProcessor.class);
-						writer.setMySocket(clientSocket);
-						Thread newClientThread = new Thread(reader);
-						newClientThread.start();
-						Thread newClientThread2 = new Thread(writer);
-						newClientThread2.start();
-						*/
-						// System.out.println("Fin de thread");
-						// WebAppSocketApplication.connexions.remove(connexion);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

@@ -41,8 +41,6 @@ public class SerrureAppApplication {
 		ServerTcp ts = new ServerTcp(port, 100); //, applicationContext);
 		ts.open();
 
-		System.out.println("INFO$: Serveur initialisé.");
-		
 
 	}
 

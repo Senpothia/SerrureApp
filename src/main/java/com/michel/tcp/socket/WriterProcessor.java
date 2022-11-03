@@ -74,7 +74,6 @@ public class WriterProcessor implements Runnable {
 	@Override
 	public void run() {
 
-		System.out.println("INFO$: Lancement du traitement des transferts vers le client");
 		boolean closeConnexion = false;
 
 		while (!mySocket.isClosed()) {
