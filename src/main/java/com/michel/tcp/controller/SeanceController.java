@@ -9,11 +9,14 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.michel.tcp.service.user.UserConnexion;
 
@@ -691,6 +694,140 @@ public class SeanceController {
 				+ ">T3>" + procedures[2] + ">#";
 
 		return commande;
+  	}
+	
+	
+	// Gestion des ordres liés à l'appli Windows
+	
+
+	@PostMapping("/creer/sceance/windows")
+	ResponseEntity<Integer> sauvergarder(@RequestBody FormSeance formsceance, Model model) {
+	
+		Seance seance = new Seance();
+		seance.setActif(true);
+		seance.setEtat(Constants.ARRET);
+		seance.setDate(LocalDateTime.parse(formsceance.getDate() + " " + "00:00:00",
+				DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+		seance.setDescription(formsceance.getDescription());
+
+		seanceService.enregistrerSeance(seance);
+		Integer id = seance.getId();
+
+		Seance s = seanceService.obtenirSeanceParId(id);
+
+		Echantillon echantillon1 = new Echantillon(formsceance, seance, 1);
+		Echantillon echantillon2 = new Echantillon(formsceance, seance, 2);
+		Echantillon echantillon3 = new Echantillon(formsceance, seance, 3);
+
+		echantillon1.setSeance(s);
+		echantillon2.setSeance(s);
+		echantillon3.setSeance(s);
+
+		echantillonService.enregistrerEchantillon(echantillon1);
+		echantillonService.enregistrerEchantillon(echantillon2);
+		echantillonService.enregistrerEchantillon(echantillon3);
+
+		List<Echantillon> echantillons = new ArrayList<Echantillon>();
+		echantillons.add(echantillon1);
+		echantillons.add(echantillon2);
+		echantillons.add(echantillon3);
+		s.setEchantillons(echantillons);
+		seanceService.enregistrerSeance(s);
+		Integer idSeance = s.getId();
+		System.out.println("Id:" + idSeance);
+		model.addAttribute("id", idSeance);
+		
+		return ResponseEntity.status(HttpStatus.OK)
+		        .body(idSeance);
 	}
+	
+	
+				// requête depuis application Windows
+	
+	@GetMapping("/sceance/windows/{id}")
+	public ResponseEntity<FormSeance> voirSeanceWindows(@PathVariable(name = "id") Integer id, Model model, HttpSession session) {
+		
+			Seance seance = seanceService.obtenirSeanceParId(id);
+			FormSeance formSceance = new FormSeance(seance);
+			return ResponseEntity.status(HttpStatus.OK).body(formSceance);
+			
+	}
+	
+	@PostMapping("/modifier/sequence/windows/{idSceance}")
+	ResponseEntity<Integer> modifierSceanceWindows(@PathVariable(name = "idSceance") Integer idSceance,@RequestBody FormSeance formsceance, Model model) {
+		
+		System.out.println("Demande modification de sceance");
+		Seance s = seanceService.obtenirSeanceParId(idSceance);
+		s.setActif(true);
+		s.setEtat(Constants.ARRET);
+		s.setDate(LocalDateTime.parse(formsceance.getDate() + " " + "00:00:00",
+				DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+		s.setDescription(formsceance.getDescription());
+		
+		List<Echantillon> echs = s.getEchantillons();
+		Echantillon e1 = echs.get(0);
+		Echantillon e2 = echs.get(1);
+		Echantillon e3 = echs.get(2);
+		
+		e1.setActif(formsceance.getActif1());
+		e1.setCompteur(formsceance.getCompteur1());
+		e1.setType(formsceance.getType1());
+		
+
+		e2.setActif(formsceance.getActif2());
+		e2.setCompteur(formsceance.getCompteur2());
+		e2.setType(formsceance.getType2());
+		
+
+		e3.setActif(formsceance.getActif3());
+		e3.setCompteur(formsceance.getCompteur3());
+		e3.setType(formsceance.getType3());
+		
+		seanceService.enregistrerSeance(s);
+		Integer idSeance = s.getId();
+		System.out.println("Id:" + idSeance);
+		model.addAttribute("id", idSeance);
+		
+		return ResponseEntity.status(HttpStatus.OK)
+		        .body(idSeance);
+	}
+	
+	
+	@PostMapping("/actualiser/sequence/windows/{idSceance}")
+	ResponseEntity<Integer> actualiserSceanceWindows(@PathVariable(name = "idSceance") Integer idSceance,@RequestBody FormSeance formsceance, Model model) {
+		
+		System.out.println("Demande d'actualistion de sceance");
+		Seance s = seanceService.obtenirSeanceParId(idSceance);
+		s.setActif(formsceance.getActif());
+		
+		List<Echantillon> echs = s.getEchantillons();
+		Echantillon e1 = echs.get(0);
+		Echantillon e2 = echs.get(1);
+		Echantillon e3 = echs.get(2);
+		
+		e1.setActif(formsceance.getActif1());
+		e1.setCompteur(formsceance.getCompteur1());
+		e1.setType(formsceance.getType1());
+		
+
+		e2.setActif(formsceance.getActif2());
+		e2.setCompteur(formsceance.getCompteur2());
+		e2.setType(formsceance.getType2());
+		
+
+		e3.setActif(formsceance.getActif3());
+		e3.setCompteur(formsceance.getCompteur3());
+		e3.setType(formsceance.getType3());
+		
+		seanceService.enregistrerSeance(s);
+		Integer idSeance = s.getId();
+		System.out.println("Id:" + idSeance);
+		model.addAttribute("id", idSeance);
+		
+		return ResponseEntity.status(HttpStatus.OK)
+		        .body(idSeance);
+	}
+	
+
 
 }

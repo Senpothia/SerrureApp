@@ -65,5 +65,34 @@ public class UserConnexion {
 		
 	}
 
+	public ResponseEntity<UtilisateurAux> identifierApps(Login login, HttpSession session) {
+		
+		try {
+			ResponseEntity<UtilisateurAux> userBody = userCompte.generate(login);
+			HttpStatus code = userBody.getStatusCode();
+			
+			UtilisateurAux userAux = userBody.getBody();
+			
+			Utilisateur utilisateur = new Utilisateur();
+			utilisateur.setId(userAux.getId());
+			utilisateur.setNom(userAux.getNom());
+			utilisateur.setRole(userAux.getRole());
+			utilisateur.setPrenom(userAux.getPrenom());
+			utilisateur.setUsername(userAux.getUsername());
+			
+			String token = userAux.getToken();
+			
+			session.setAttribute("USER", utilisateur);
+			session.setAttribute("TOKEN", token);
+			
+			return userBody;
+			
+		}catch (Exception e) {
+			
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		}
+		
+	}
+
 
 }

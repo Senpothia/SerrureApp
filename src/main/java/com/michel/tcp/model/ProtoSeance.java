@@ -14,7 +14,7 @@ public class ProtoSeance {
 	private Boolean actif; // en cours, terminée
 	
 	public ProtoSeance() {
-		super();
+		 super();
 		// TODO Auto-generated constructor stub
 	}
 

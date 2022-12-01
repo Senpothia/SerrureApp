@@ -13,7 +13,7 @@ public class ProtoEchantillon {
 	private Integer seance; // id de la seance
 	
 	public ProtoEchantillon() {
-		super();
+		 super();
 		// TODO Auto-generated constructor stub
 	}
 
