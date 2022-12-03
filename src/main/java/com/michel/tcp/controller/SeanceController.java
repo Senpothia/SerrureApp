@@ -732,6 +732,7 @@ public class SeanceController {
 		echantillons.add(echantillon2);
 		echantillons.add(echantillon3);
 		s.setEchantillons(echantillons);
+		Collections.sort(echantillons);
 		seanceService.enregistrerSeance(s);
 		Integer idSeance = s.getId();
 		System.out.println("Id:" + idSeance);
@@ -765,6 +766,7 @@ public class SeanceController {
 		s.setDescription(formsceance.getDescription());
 		
 		List<Echantillon> echs = s.getEchantillons();
+		Collections.sort(echs);
 		Echantillon e1 = echs.get(0);
 		Echantillon e2 = echs.get(1);
 		Echantillon e3 = echs.get(2);
@@ -801,6 +803,7 @@ public class SeanceController {
 		s.setActif(formsceance.getActif());
 		
 		List<Echantillon> echs = s.getEchantillons();
+		Collections.sort(echs);
 		Echantillon e1 = echs.get(0);
 		Echantillon e2 = echs.get(1);
 		Echantillon e3 = echs.get(2);
