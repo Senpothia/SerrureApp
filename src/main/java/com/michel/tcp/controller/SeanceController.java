@@ -801,6 +801,7 @@ public class SeanceController {
 		System.out.println("Demande d'actualistion de sceance");
 		Seance s = seanceService.obtenirSeanceParId(idSceance);
 		s.setActif(formsceance.getActif());
+		s.setEtat(formsceance.getActif()? "MARCHE":"ARRET");
 		
 		List<Echantillon> echs = s.getEchantillons();
 		Collections.sort(echs);
