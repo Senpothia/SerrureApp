@@ -735,7 +735,7 @@ public class SeanceController {
 		Collections.sort(echantillons);
 		seanceService.enregistrerSeance(s);
 		Integer idSeance = s.getId();
-		System.out.println("Id:" + idSeance);
+	
 		model.addAttribute("id", idSeance);
 		
 		return ResponseEntity.status(HttpStatus.OK)
@@ -757,7 +757,6 @@ public class SeanceController {
 	@PostMapping("/modifier/sequence/windows/{idSceance}")
 	ResponseEntity<Integer> modifierSceanceWindows(@PathVariable(name = "idSceance") Integer idSceance,@RequestBody FormSeance formsceance, Model model) {
 		
-		System.out.println("Demande modification de sceance");
 		Seance s = seanceService.obtenirSeanceParId(idSceance);
 		s.setActif(true);
 		s.setEtat(Constants.ARRET);
@@ -787,7 +786,7 @@ public class SeanceController {
 		
 		seanceService.enregistrerSeance(s);
 		Integer idSeance = s.getId();
-		System.out.println("Id:" + idSeance);
+	
 		model.addAttribute("id", idSeance);
 		
 		return ResponseEntity.status(HttpStatus.OK)
@@ -798,7 +797,7 @@ public class SeanceController {
 	@PostMapping("/actualiser/sequence/windows/{idSceance}")
 	ResponseEntity<Integer> actualiserSceanceWindows(@PathVariable(name = "idSceance") Integer idSceance,@RequestBody FormSeance formsceance, Model model) {
 		
-		System.out.println("Demande d'actualistion de sceance");
+	
 		Seance s = seanceService.obtenirSeanceParId(idSceance);
 		s.setActif(formsceance.getActif());
 		s.setEtat(formsceance.getActif()? "MARCHE":"ARRET");
@@ -834,7 +833,7 @@ public class SeanceController {
 		
 		seanceService.enregistrerSeance(s);
 		Integer idSeance = s.getId();
-		System.out.println("Id:" + idSeance);
+	
 		model.addAttribute("id", idSeance);
 		
 		return ResponseEntity.status(HttpStatus.OK)
