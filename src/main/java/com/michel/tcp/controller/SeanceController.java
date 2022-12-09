@@ -811,16 +811,25 @@ public class SeanceController {
 		e1.setActif(formsceance.getActif1());
 		e1.setCompteur(formsceance.getCompteur1());
 		e1.setType(formsceance.getType1());
+		e1.setErreur(formsceance.getErreur1());
+		e1.setPause(formsceance.getPause1());
+		e1.setInterrompu(formsceance.getInterrompu1());
 		
 
 		e2.setActif(formsceance.getActif2());
 		e2.setCompteur(formsceance.getCompteur2());
 		e2.setType(formsceance.getType2());
+		e2.setErreur(formsceance.getErreur2());
+		e2.setPause(formsceance.getPause2());
+		e2.setInterrompu(formsceance.getInterrompu3());
 		
 
 		e3.setActif(formsceance.getActif3());
 		e3.setCompteur(formsceance.getCompteur3());
 		e3.setType(formsceance.getType3());
+		e3.setErreur(formsceance.getErreur3());
+		e3.setPause(formsceance.getPause3());
+		e3.setInterrompu(formsceance.getInterrompu3());
 		
 		seanceService.enregistrerSeance(s);
 		Integer idSeance = s.getId();
